@@ -4,6 +4,13 @@
 'use strict';
 
 const fr = {
+  'pdf.download': 'Télécharger le PDF', 'pdf.preparing': 'Préparation du PDF…',
+  'pdf.unavailable': 'Le générateur PDF n’a pas pu se charger (vérifiez la connexion). La fenêtre d’impression va s’ouvrir : choisissez « Enregistrer en PDF ».',
+  'pdf.generated': 'Généré le {date}', 'pdf.signature': 'Signature de l’agent',
+  'pdf.locked': 'Entrées horodatées, non modifiables et non supprimables.', 'pdf.noEntries': 'Aucune entrée.',
+  'pdf.page': 'Page {n} / {total}',
+  'closed.title': 'Service clôturé', 'closed.body': 'Votre main courante est enregistrée. Téléchargez-la en PDF pour la transmettre.',
+  'closed.new': 'Nouvelle prise de service',
   'start.firstName': 'Prénom', 'start.lastName': 'Nom',
   'start.nameRequired': 'Indiquez votre prénom et votre nom.',
   'start.openShifts': 'Service déjà ouvert sur ce site',
@@ -75,6 +82,13 @@ const fr = {
 };
 
 const en = {
+  'pdf.download': 'Download PDF', 'pdf.preparing': 'Preparing PDF…',
+  'pdf.unavailable': 'The PDF generator could not load (check the connection). The print window will open: choose “Save as PDF”.',
+  'pdf.generated': 'Generated on {date}', 'pdf.signature': 'Guard signature',
+  'pdf.locked': 'Time-stamped entries that cannot be edited or deleted.', 'pdf.noEntries': 'No entries.',
+  'pdf.page': 'Page {n} / {total}',
+  'closed.title': 'Shift closed', 'closed.body': 'Your log is saved. Download it as a PDF to hand it over.',
+  'closed.new': 'Start a new shift',
   'start.firstName': 'First name', 'start.lastName': 'Last name',
   'start.nameRequired': 'Enter your first and last name.',
   'start.openShifts': 'Shift already open on this site',
@@ -233,6 +247,7 @@ const db = configured ? window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPAB
 const $app = document.getElementById('app');
 let tab = 'log';
 let currentShift = null;
+let closedShiftId = null;
 let clockTimer = null;
 
 async function loadShift(id = store.get(SHIFT_KEY)) {
@@ -272,6 +287,7 @@ function render() {
   const main = document.getElementById('main');
   if (tab === 'history') renderHistory(main);
   else if (currentShift) renderShift(main);
+  else if (closedShiftId) renderClosed(main);
   else renderStart(main);
 }
 
@@ -377,7 +393,7 @@ async function renderShift(main) {
   async function load() {
     const since = new Date(new Date(shift.started_at).getTime() - 24 * 3600e3).toISOString();
     const [e, p, m] = await Promise.all([
-      db.from('log_entries').select('*').eq('shift_id', shift.id).order('occurred_at', { ascending: false }),
+      db.from('log_entries').select('*').eq('shift_id', shift.id).order('occurred_at', { ascending: false }).order('created_at', { ascending: false }),
       db.from('people').select('*').eq('site_id', site.id).eq('active', true).order('full_name'),
       db.from('log_entries').select('type, person_id, person_name, person_category, occurred_at')
         .eq('site_id', site.id).in('type', ['arrival', 'departure']).gte('occurred_at', since).order('occurred_at'),
@@ -408,7 +424,8 @@ async function renderShift(main) {
           `<li><span>${esc(p.name)}</span><small>${t(`cat.${p.category || 'other'}`)}, ${fmtTime(p.since)}</small></li>`).join('')}</ul>`
           : `<p class="muted small">${t('shift.nobody')}</p>`}
       </section>
-      <section class="block"><h2 class="h-section">${t('shift.log')}</h2>${timelineHtml(entries, true)}</section>
+      <section class="block"><div class="row-between"><h2 class="h-section">${t('shift.log')}</h2>
+        <button class="link small" id="pdfBtn">${t('pdf.download')}</button></div>${timelineHtml(entries, true)}</section>
       <div class="foot-actions">
         <button class="btn" id="sosBtn">${t('shift.sos')}</button>
         <button class="btn primary" id="endBtn">${t('shift.end')}</button>
@@ -419,6 +436,7 @@ async function renderShift(main) {
       b.onclick = () => entryForm('correction', entries.find((x) => x.id === b.dataset.correct), presence);
     });
     main.querySelector('#sosBtn').onclick = sos;
+    main.querySelector('#pdfBtn').onclick = (ev) => exportShiftPdf(shift.id, ev.currentTarget);
     main.querySelector('#endBtn').onclick = () => endShift(activePatrol);
     function onAction(type) {
       if (type === 'patrol') return activePatrol ? patrolClose(activePatrol) : startPatrol();
@@ -691,6 +709,7 @@ async function renderShift(main) {
       if (error) return showErr(eerr, error.message);
       close();
       store.set(SHIFT_KEY, null);
+      closedShiftId = shift.id;
       currentShift = null;
       render();
     };
@@ -729,7 +748,7 @@ async function renderReport(main, id) {
   main.innerHTML = `<p class="muted">${t('common.wait')}</p>`;
   const [s, e] = await Promise.all([
     db.from('shifts').select('*, sites(name, address)').eq('id', id).single(),
-    db.from('log_entries').select('*').eq('shift_id', id).order('occurred_at'),
+    db.from('log_entries').select('*').eq('shift_id', id).order('occurred_at').order('created_at'),
   ]);
   const shift = s.data;
   if (!shift) { main.innerHTML = `<p class="error">${esc(s.error?.message)}</p>`; return; }
@@ -738,7 +757,8 @@ async function renderReport(main, id) {
   const checks = Object.entries(shift.checklist || {});
   main.innerHTML = `<section class="report">
     <div class="row-between no-print"><button class="btn" id="back">${t('common.back')}</button>
-      <button class="btn primary" id="print">${t('common.print')}</button></div>
+      <div class="row-end"><button class="btn" id="print">${t('common.print')}</button>
+      <button class="btn primary" id="pdf">${t('pdf.download')}</button></div></div>
     <div class="report-sheet">
       <header class="report-head"><p class="brand-big">Amcari</p><h1 class="h-page">${t('report.title')}</h1></header>
       <dl class="report-meta">
@@ -764,6 +784,166 @@ async function renderReport(main, id) {
     </div></section>`;
   main.querySelector('#back').onclick = () => renderHistory(main);
   main.querySelector('#print').onclick = () => window.print();
+  main.querySelector('#pdf').onclick = (ev) => exportShiftPdf(id, ev.currentTarget);
+}
+
+
+/* ---------- Service clôturé ---------- */
+function renderClosed(main) {
+  main.innerHTML = `<section class="panel narrow stack closed">
+    <h1 class="h-page">${t('closed.title')}</h1>
+    <p>${t('closed.body')}</p>
+    <button class="btn primary big" id="cpdf">${t('pdf.download')}</button>
+    <button class="btn big" id="cnew">${t('closed.new')}</button>
+  </section>`;
+  main.querySelector('#cpdf').onclick = (ev) => exportShiftPdf(closedShiftId, ev.currentTarget);
+  main.querySelector('#cnew').onclick = () => { closedShiftId = null; render(); };
+}
+
+/* ---------- Export PDF ---------- */
+let pdfFonts = null;
+async function loadPdfFonts() {
+  if (pdfFonts) return pdfFonts;
+  const toB64 = (buf) => {
+    const bytes = new Uint8Array(buf);
+    let bin = '';
+    for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+    return btoa(bin);
+  };
+  const [regular, bold] = await Promise.all(['Barlow-Regular.ttf', 'Barlow-SemiBold.ttf'].map(async (f) => {
+    const res = await fetch(f);
+    if (!res.ok) throw new Error(f);
+    return toB64(await res.arrayBuffer());
+  }));
+  pdfFonts = { regular, bold };
+  return pdfFonts;
+}
+
+const slug = (s) => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^A-Za-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const isoDate = (d) => { const x = new Date(d); return `${x.getFullYear()}-${pad(x.getMonth() + 1)}-${pad(x.getDate())}`; };
+
+async function exportShiftPdf(shiftId, btn) {
+  const lib = window.jspdf;
+  if (!lib || !lib.jsPDF || !lib.jsPDF.API.autoTable) { alert(t('pdf.unavailable')); window.print(); return; }
+  const label = btn ? btn.textContent : '';
+  if (btn) { btn.disabled = true; btn.textContent = t('pdf.preparing'); }
+  try {
+    const [s, e] = await Promise.all([
+      db.from('shifts').select('*, sites(name, address)').eq('id', shiftId).single(),
+      db.from('log_entries').select('*').eq('shift_id', shiftId).order('occurred_at').order('created_at'),
+    ]);
+    if (!s.data) throw new Error(s.error ? s.error.message : 'shift');
+    const shift = s.data;
+    const entries = e.data || [];
+    const byId = Object.fromEntries(entries.map((x) => [x.id, x]));
+
+    const doc = new lib.jsPDF({ unit: 'mm', format: 'a4' });
+    let font = 'helvetica';
+    let clean = (x) => String(x ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[Đđ]/g, (c) => (c === 'Đ' ? 'D' : 'd')).replace(/[’‘]/g, "'").replace(/[“”«»]/g, '"').replace(/[–—]/g, '-').replace(/…/g, '...');
+    try {
+      const f = await loadPdfFonts();
+      doc.addFileToVFS('Barlow-Regular.ttf', f.regular);
+      doc.addFont('Barlow-Regular.ttf', 'Barlow', 'normal');
+      doc.addFileToVFS('Barlow-SemiBold.ttf', f.bold);
+      doc.addFont('Barlow-SemiBold.ttf', 'Barlow', 'bold');
+      font = 'Barlow';
+      clean = (x) => String(x ?? '');
+    } catch { /* police indisponible : on garde Helvetica sans accents spéciaux */ }
+
+    const W = 210; const H = 297; const M = 14;
+    const INK = [14, 42, 51]; const MUTED = [86, 112, 122]; const ALERT = [190, 47, 55]; const LINE = [204, 216, 220];
+    const siteName = shift.sites ? shift.sites.name : '';
+
+    doc.setTextColor(...INK);
+    doc.setFont(font, 'bold'); doc.setFontSize(22);
+    doc.text('AMCARI', M, 19);
+    doc.setFontSize(14);
+    doc.text(clean(t('report.title')), W - M, 19, { align: 'right' });
+    doc.setDrawColor(...INK); doc.setLineWidth(0.7); doc.line(M, 23, W - M, 23);
+
+    doc.autoTable({
+      startY: 27,
+      body: [
+        [t('report.date'), fmtDate(shift.started_at), t('report.site'), siteName],
+        [t('report.agent'), agentName(shift), t('report.start') + ' / ' + t('report.end'),
+          `${fmtTime(shift.started_at)} – ${shift.ended_at ? fmtTime(shift.ended_at) : t('history.open')}`],
+      ].map((r) => r.map(clean)),
+      theme: 'plain',
+      styles: { font, fontSize: 10, cellPadding: { top: 1.2, bottom: 1.2, left: 0, right: 2 }, textColor: INK },
+      columnStyles: { 0: { textColor: MUTED, cellWidth: 26 }, 1: { fontStyle: 'bold', cellWidth: 64 }, 2: { textColor: MUTED, cellWidth: 30 }, 3: { fontStyle: 'bold' } },
+      margin: { left: M, right: M },
+    });
+    let y = doc.lastAutoTable.finalY + 6;
+
+    const ensure = (h) => { if (y + h > H - 20) { doc.addPage(); y = 18; } };
+    const section = (title, text) => {
+      ensure(14);
+      doc.setFont(font, 'bold'); doc.setFontSize(12); doc.setTextColor(...INK);
+      doc.text(clean(title), M, y); y += 5.5;
+      doc.setFont(font, 'normal'); doc.setFontSize(10);
+      for (const line of doc.splitTextToSize(clean(text), W - 2 * M)) { ensure(5); doc.text(line, M, y); y += 4.6; }
+      y += 3;
+    };
+
+    section(t('report.instructions'), shift.instructions_received || t('report.none'));
+
+    const rows = entries.map((x) => {
+      const details = [];
+      if (x.person_category) details.push(t(`cat.${x.person_category}`));
+      if (x.authorised_by) details.push(t('entry.authorisedBy', { name: x.authorised_by }));
+      if (x.id_checked) details.push(t('entry.idChecked'));
+      if (x.description) details.push(x.description);
+      if (x.corrects_entry_id) details.push(t('entry.correcting', { time: fmtTime(byId[x.corrects_entry_id]?.occurred_at) || '?' }));
+      if (isLate(x)) details.push(t('entry.late', { time: fmtTime(x.created_at) }));
+      return [fmtTime(x.occurred_at) + (x.ended_at ? ` – ${fmtTime(x.ended_at)}` : ''), describe(x), details.join('\n')].map(clean);
+    });
+    const alertRows = entries.map((x) => x.outcome === 'anomaly' || x.type === 'incident' || x.type === 'correction');
+
+    ensure(20);
+    doc.autoTable({
+      startY: y,
+      head: [[t('report.time'), t('report.event'), t('report.details')].map(clean)],
+      body: rows.length ? rows : [['', clean(t('pdf.noEntries')), '']],
+      styles: { font, fontSize: 9.5, cellPadding: 2, valign: 'top', textColor: INK, lineColor: LINE, lineWidth: 0.15, overflow: 'linebreak' },
+      headStyles: { fillColor: INK, textColor: 255, fontStyle: 'bold' },
+      alternateRowStyles: { fillColor: [243, 246, 247] },
+      columnStyles: { 0: { cellWidth: 25, fontStyle: 'bold' }, 1: { cellWidth: 62 } },
+      margin: { left: M, right: M, top: 18, bottom: 20 },
+      didParseCell: (d) => { if (d.section === 'body' && alertRows[d.row.index]) d.cell.styles.textColor = ALERT; },
+    });
+    y = doc.lastAutoTable.finalY + 8;
+
+    section(t('report.handover'), shift.handover_notes || t('report.none'));
+    const checks = Object.entries(shift.checklist || {});
+    if (checks.length) section(t('report.checklist'), checks.map(([k, v]) => `${k} : ${v ? t('report.yes') : t('report.no')}`).join('\n'));
+
+    ensure(26);
+    y += 2;
+    doc.setFont(font, 'normal'); doc.setFontSize(10); doc.setTextColor(...MUTED);
+    doc.text(clean(t('pdf.signature')), M, y);
+    doc.setDrawColor(...LINE); doc.setLineWidth(0.3);
+    doc.rect(M, y + 2, 80, 18);
+    doc.setFont(font, 'bold'); doc.setTextColor(...INK);
+    doc.text(clean(agentName(shift)), M + 84, y + 8);
+
+    const total = doc.getNumberOfPages();
+    const generated = clean(`${t('pdf.generated', { date: fmtDateTime(new Date()) })}. ${t('pdf.locked')}`);
+    for (let n = 1; n <= total; n++) {
+      doc.setPage(n);
+      doc.setFont(font, 'normal'); doc.setFontSize(8); doc.setTextColor(...MUTED);
+      doc.setDrawColor(...LINE); doc.setLineWidth(0.2); doc.line(M, H - 13, W - M, H - 13);
+      doc.text(clean(`Amcari, ${siteName}, ${fmtDate(shift.started_at)}`), M, H - 9);
+      doc.text(generated, M, H - 5.5);
+      doc.text(clean(t('pdf.page', { n, total })), W - M, H - 9, { align: 'right' });
+    }
+
+    doc.save(`main-courante_${slug(siteName)}_${isoDate(shift.started_at)}_${slug(shift.agent_last_name || agentName(shift))}.pdf`);
+  } catch (err) {
+    alert(err && err.message ? err.message : String(err));
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = label; }
+  }
 }
 
 /* ---------- Lancement ---------- */

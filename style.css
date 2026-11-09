@@ -266,3 +266,6 @@ body::before {
 .contacts li { display: grid; gap: .15rem; }
 .contacts .btn { justify-content: flex-start; }
 @media (max-width: 420px) { .two-cols { grid-template-columns: 1fr; } }
+
+.closed p { margin: 0; max-width: 46ch; }
+.row-between .h-section { margin-bottom: .6rem; }
