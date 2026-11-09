@@ -300,7 +300,11 @@ async function loadShift(id = store.get(SHIFT_KEY)) {
   currentShift = null;
   if (!id) return;
   const { data } = await db.from('shifts').select('*, sites(*)').eq('id', id).maybeSingle();
-  if (data && data.status === 'open') { store.set(SHIFT_KEY, data.id); currentShift = data; }
+  if (data && data.status === 'open') {
+    store.set(SHIFT_KEY, data.id);
+    currentShift = data;
+    if (data.sites) store.set('amcari-site-name', data.sites.name);
+  }
   else store.set(SHIFT_KEY, null);
 }
 
@@ -322,7 +326,8 @@ function render() {
     bindLang($app);
     return;
   }
-  $app.innerHTML = `<header class="topbar"><span class="brand">Amcari</span>
+  const brand = (currentShift && currentShift.sites && currentShift.sites.name) || store.get('amcari-site-name') || 'Amcari';
+  $app.innerHTML = `<header class="topbar"><span class="brand" id="brand">${esc(brand)}</span>
     <nav class="tabs">
       <button data-tab="log" ${tab === 'log' ? 'aria-current="page"' : ''}>${t('nav.log')}</button>
       <button data-tab="history" ${tab === 'history' ? 'aria-current="page"' : ''}>${t('nav.history')}</button>
@@ -390,7 +395,13 @@ async function renderStart(main) {
     info.querySelectorAll('[data-resume]').forEach((b) => { b.onclick = async () => { await loadShift(b.dataset.resume); render(); }; });
   }
   sel.onchange = onSite;
-  if (sites.length === 1) { sel.value = sites[0].id; onSite(); }
+  if (sites.length === 1) {
+    sel.value = sites[0].id;
+    onSite();
+    store.set('amcari-site-name', sites[0].name);
+    const b = document.getElementById('brand');
+    if (b) b.textContent = sites[0].name;
+  }
 
   btn.onclick = async () => {
     const first = main.querySelector('#first').value.trim();
