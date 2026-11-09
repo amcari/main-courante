@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0B1F26" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Admiral House · Supervisor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css?v=14" />
+    <style>
+      .sup .content { max-width: 1180px; }
+      .sup-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+      .sup-head p { margin: .2rem 0 0; }
+      .refresh { display: flex; align-items: center; gap: .6rem; }
+      .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: .7rem; margin-bottom: 1.4rem; }
+      .kpi { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-s); padding: .8rem 1rem; border-top: 4px solid var(--tone, var(--line)); }
+      .kpi strong { display: block; font-family: var(--font-num); font-size: 2.3rem; line-height: 1; font-variant-numeric: tabular-nums; }
+      .kpi span { color: var(--muted); font-size: .9rem; }
+      .cols { display: grid; grid-template-columns: 1.15fr .85fr; gap: 1.4rem; align-items: start; }
+      .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-s); padding: 1rem 1.1rem; }
+      .card + .card { margin-top: 1rem; }
+      .duty { display: grid; grid-template-columns: auto 1fr auto; gap: .2rem 1rem; align-items: center; }
+      .duty + .duty { border-top: 1px solid var(--line); padding-top: .9rem; margin-top: .9rem; }
+      .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 4px color-mix(in srgb, var(--ok) 25%, transparent); }
+      .dot.warn { background: var(--signal); box-shadow: 0 0 0 4px color-mix(in srgb, var(--signal) 25%, transparent); }
+      .dot.bad { background: var(--alert); box-shadow: 0 0 0 4px color-mix(in srgb, var(--alert) 25%, transparent); }
+      .duty h3 { margin: 0; font-size: 1.15rem; }
+      .duty .meta { color: var(--muted); font-size: .92rem; grid-column: 2; }
+      .tag { display: inline-block; padding: .1rem .55rem; border-radius: 999px; font-size: .8rem; font-weight: 600; background: var(--surface-2); border: 1px solid var(--line); }
+      .tag.patrol { background: var(--signal); color: var(--signal-ink); border-color: var(--signal); }
+      .tag.alert { background: var(--alert); color: #fff; border-color: var(--alert); }
+      .tag.ok { background: var(--ok); color: #fff; border-color: var(--ok); }
+      .tag.pending { background: var(--signal); color: var(--signal-ink); border-color: var(--signal); }
+      .empty-duty { display: flex; gap: .8rem; align-items: center; color: var(--alert); font-weight: 600; }
+      .alerts { list-style: none; margin: 0; padding: 0; }
+      .alerts li { padding: .7rem 0; border-top: 1px solid var(--line); cursor: pointer; }
+      .alerts li:first-child { border-top: 0; padding-top: 0; }
+      .alerts .when { font-family: var(--font-num); font-weight: 600; font-size: 1.05rem; }
+      .alerts .what { font-weight: 600; color: var(--alert); }
+      .alerts p { margin: .15rem 0 0; }
+      .filters { display: flex; gap: .8rem; align-items: flex-end; flex-wrap: wrap; margin-bottom: 1rem; }
+      .filters label { min-width: 150px; }
+      table.data { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-s); overflow: hidden; }
+      table.data th, table.data td { text-align: left; padding: .6rem .7rem; border-bottom: 1px solid var(--line); vertical-align: middle; font-size: .95rem; }
+      table.data th { font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); background: var(--surface-2); }
+      table.data tr.click { cursor: pointer; }
+      table.data tr.click:hover td { background: var(--surface-2); }
+      table.data .num { font-family: var(--font-num); font-weight: 600; font-size: 1.05rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+      .sheet.wide { width: min(100%, 900px); }
+      .detail-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .5rem 1rem; margin: 0 0 1rem; }
+      .detail-meta dt { color: var(--muted); font-size: .85rem; }
+      .detail-meta dd { margin: 0; font-weight: 600; }
+      .live { display: inline-flex; align-items: center; gap: .4rem; color: var(--muted); font-size: .9rem; }
+      .live::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--ok); animation: pulse 2s infinite; }
+      @keyframes pulse { 50% { opacity: .3; } }
+      @media (prefers-reduced-motion: reduce) { .live::before { animation: none; } }
+      @media (max-width: 860px) { .cols { grid-template-columns: 1fr; } .kpis { grid-template-columns: repeat(2, 1fr); } }
+      @media (max-width: 640px) { .hide-sm { display: none; } }
+    </style>
+  </head>
+  <body class="sup">
+    <div id="sup"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+    <script src="config.js?v=14"></script>
+    <script src="app.js?v=14"></script>
+    <script src="supervisor.js?v=14"></script>
+  </body>
+</html>

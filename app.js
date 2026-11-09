@@ -1251,10 +1251,18 @@ async function buildShiftPdf(shiftId) {
   }
 }
 
-/* ---------- Lancement ---------- */
+/* ---------- Outils partagés avec la page superviseur ---------- */
+window.AMCARI = {
+  db, t, esc, fmtTime, fmtDate, fmtDateTime, isoDate, describe, timelineHtml, hydratePhotos,
+  exportShiftPdf, agentName, computePresence, siteText, roleText, openModal, isLate,
+};
+
+/* ---------- Lancement (application agent uniquement) ---------- */
 document.documentElement.lang = lang;
-(async () => {
-  if (db) await loadShift();
-  render();
-})();
+if ($app) {
+  (async () => {
+    if (db) await loadShift();
+    render();
+  })();
+}
 })();
