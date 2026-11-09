@@ -128,7 +128,7 @@ function t(k, vars) {
 
 function fmtTime(d) { if (!d) return ''; const x = new Date(d); return `${pad(x.getHours())}:${pad(x.getMinutes())}`; }
 function fmtDate(d) {
-  return new Date(d).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-GB', { weekday: 'short', day: '2-digit', month: '2-digit', year: 'numeric' });
+  return new Date(d).toLocaleDateString({ es: 'es-ES', fr: 'fr-FR' }[lang] || 'en-GB', { weekday: 'short', day: '2-digit', month: '2-digit', year: 'numeric' });
 }
 function fmtDateTime(d) { return `${fmtDate(d)} ${fmtTime(d)}`; }
 function timeInputValue(d) { return `${pad(d.getHours())}:${pad(d.getMinutes())}`; }
@@ -1067,12 +1067,14 @@ async function exportShiftPdf(shiftId, btn) {
   const label = btn ? btn.textContent : '';
   if (btn) { btn.disabled = true; btn.textContent = t('pdf.preparing'); }
   lang = 'en';
+  let out = null;
   try {
-    await buildShiftPdf(shiftId);
+    out = await buildShiftPdf(shiftId);
   } finally {
     lang = uiLang;
     if (btn) { btn.disabled = false; btn.textContent = label; }
   }
+  if (out) pdfReady(out.doc, out.fname);
 }
 
 async function buildShiftPdf(shiftId) {
@@ -1243,7 +1245,7 @@ async function buildShiftPdf(shiftId) {
       doc.text(clean(t('pdf.page', { n, total })), W - M, H - 9, { align: 'right' });
     }
 
-    pdfReady(doc, `main-courante_${slug(siteName)}_${isoDate(shift.started_at)}_${slug(shift.agent_last_name || agentName(shift))}.pdf`);
+    return { doc, fname: `main-courante_${slug(siteName)}_${isoDate(shift.started_at)}_${slug(shift.agent_last_name || agentName(shift))}.pdf` };
   } catch (err) {
     alert(err && err.message ? err.message : String(err));
   } finally {
@@ -1252,8 +1254,15 @@ async function buildShiftPdf(shiftId) {
 }
 
 /* ---------- Outils partagés avec la page superviseur ---------- */
+// Permet à la page superviseur d'utiliser une autre langue (le PDF reste en anglais)
+function useLang(l, dict) {
+  if (dict) DICT[l] = dict;
+  lang = DICT[l] ? l : 'en';
+  document.documentElement.lang = lang;
+}
+
 window.AMCARI = {
-  db, t, esc, fmtTime, fmtDate, fmtDateTime, isoDate, describe, timelineHtml, hydratePhotos,
+  useLang, db, t, esc, fmtTime, fmtDate, fmtDateTime, isoDate, describe, timelineHtml, hydratePhotos,
   exportShiftPdf, agentName, computePresence, siteText, roleText, openModal, isLate,
 };
 
