@@ -4,6 +4,24 @@
 'use strict';
 
 const fr = {
+  'btn.patrol': 'Démarrer une ronde', 'btn.arrival': 'Registre des entrées', 'btn.departure': 'Registre des sorties',
+  'btn.delivery': 'Livraison', 'btn.event': 'Rapport d’événement', 'btn.incident': 'Rapport d’incident',
+  'btn.anomaly': 'Signaler une anomalie', 'btn.correction': 'Rectification',
+  'type.event': 'Rapport d’événement', 'type.anomaly': 'Anomalie de ronde',
+  'patrol.title': 'Ronde en cours', 'patrol.since': 'commencée à {time}', 'patrol.elapsed': '(depuis {n} min)',
+  'patrol.report': 'Signaler une anomalie', 'patrol.anomalies': 'Anomalies signalées ({n})',
+  'patrol.none': 'Aucune anomalie pour l’instant. Terminez la ronde quand vous avez fait le tour.',
+  'patrol.end': 'Fin de ronde', 'patrol.confirm': 'Terminer la ronde',
+  'patrol.summary': '{n} anomalie(s) signalée(s) pendant cette ronde.', 'patrol.summaryOk': 'Aucune anomalie signalée : la ronde sera enregistrée « RAS ».',
+  'photo.add': 'Ajouter une photo', 'photo.id': 'Photo de la pièce d’identité', 'photo.remove': 'Retirer la photo', 'photo.alt': 'Photo jointe',
+  'photo.uploadError': 'L’envoi d’une photo a échoué. Vérifiez la connexion et réessayez.',
+  'form.location': 'Localisation', 'form.subject': 'Type d’événement (facultatif)', 'form.comment': 'Commentaire (facultatif)',
+  'reg.search': 'Rechercher un nom', 'reg.selectAll': 'Tout cocher', 'reg.unselectAll': 'Tout décocher',
+  'reg.selected': '{n} personne(s) sélectionnée(s)', 'reg.addUnlisted': '+ Personne non listée', 'reg.unlisted': 'Personne non listée',
+  'reg.unlistedName': 'Nom et prénom', 'reg.remove': 'Retirer', 'reg.noneSelected': 'Cochez au moins une personne.',
+  'reg.emptyCategory': 'Personne dans cette catégorie.', 'reg.needApproval': 'Accord à obtenir pour : {names}',
+  'reg.idCheckedGroup': 'Pièces d’identité originales vérifiées pour ces personnes', 'reg.save': 'Enregistrer ({n})',
+  'pdf.photos': 'Photos', 'pdf.photosRef': '{n} photo(s) en annexe',
   'pdf.download': 'Télécharger le PDF', 'pdf.preparing': 'Préparation du PDF…',
   'pdf.unavailable': 'Le générateur PDF n’a pas pu se charger (vérifiez la connexion). La fenêtre d’impression va s’ouvrir : choisissez « Enregistrer en PDF ».',
   'pdf.generated': 'Généré le {date}', 'pdf.signature': 'Signature de l’agent',
@@ -50,7 +68,7 @@ const fr = {
   'shift.empty': 'Aucune entrée pour l’instant. Utilisez les boutons ci-dessus pour noter chaque événement au moment où il se produit.',
   'shift.sos': 'Numéros d’urgence', 'shift.end': 'Fin de service',
   'type.patrol': 'Ronde', 'type.arrival': 'Arrivée', 'type.departure': 'Départ', 'type.delivery': 'Livraison',
-  'type.task': 'Tâche', 'type.gate': 'Portail', 'type.incident': 'Incident', 'type.note': 'Note',
+  'type.task': 'Tâche', 'type.gate': 'Portail', 'type.incident': 'Rapport d’incident', 'type.note': 'Note',
   'type.correction': 'Rectification',
   'cat.staff': 'Personnel', 'cat.family': 'Famille', 'cat.visitor': 'Visiteur', 'cat.contractor': 'Prestataire', 'cat.other': 'Autre',
   'patrol.full': 'complète', 'patrol.ok': 'RAS', 'patrol.anomaly': 'anomalie',
@@ -82,6 +100,24 @@ const fr = {
 };
 
 const en = {
+  'btn.patrol': 'Start patrol', 'btn.arrival': 'Entry register', 'btn.departure': 'Exit register',
+  'btn.delivery': 'Delivery', 'btn.event': 'Event report', 'btn.incident': 'Incident report',
+  'btn.anomaly': 'Report an anomaly', 'btn.correction': 'Correction',
+  'type.event': 'Event report', 'type.anomaly': 'Patrol anomaly',
+  'patrol.title': 'Patrol in progress', 'patrol.since': 'started at {time}', 'patrol.elapsed': '({n} min ago)',
+  'patrol.report': 'Report an anomaly', 'patrol.anomalies': 'Anomalies reported ({n})',
+  'patrol.none': 'No anomalies so far. End the patrol once you have completed your round.',
+  'patrol.end': 'End patrol', 'patrol.confirm': 'End the patrol',
+  'patrol.summary': '{n} anomaly(ies) reported during this patrol.', 'patrol.summaryOk': 'No anomalies reported: the patrol will be logged as nothing to report.',
+  'photo.add': 'Add a photo', 'photo.id': 'Photo of the ID', 'photo.remove': 'Remove photo', 'photo.alt': 'Attached photo',
+  'photo.uploadError': 'A photo failed to upload. Check the connection and try again.',
+  'form.location': 'Location', 'form.subject': 'Event type (optional)', 'form.comment': 'Comment (optional)',
+  'reg.search': 'Search a name', 'reg.selectAll': 'Select all', 'reg.unselectAll': 'Clear all',
+  'reg.selected': '{n} person(s) selected', 'reg.addUnlisted': '+ Person not on the list', 'reg.unlisted': 'Person not on the list',
+  'reg.unlistedName': 'Full name', 'reg.remove': 'Remove', 'reg.noneSelected': 'Select at least one person.',
+  'reg.emptyCategory': 'Nobody in this category.', 'reg.needApproval': 'Approval needed for: {names}',
+  'reg.idCheckedGroup': 'Original IDs checked for these people', 'reg.save': 'Save ({n})',
+  'pdf.photos': 'Photos', 'pdf.photosRef': '{n} photo(s) in appendix',
   'pdf.download': 'Download PDF', 'pdf.preparing': 'Preparing PDF…',
   'pdf.unavailable': 'The PDF generator could not load (check the connection). The print window will open: choose “Save as PDF”.',
   'pdf.generated': 'Generated on {date}', 'pdf.signature': 'Guard signature',
@@ -128,7 +164,7 @@ const en = {
   'shift.empty': 'No entries yet. Use the buttons above to log each event as it happens.',
   'shift.sos': 'Emergency numbers', 'shift.end': 'End shift',
   'type.patrol': 'Patrol', 'type.arrival': 'Arrival', 'type.departure': 'Departure', 'type.delivery': 'Delivery',
-  'type.task': 'Task', 'type.gate': 'Gate', 'type.incident': 'Incident', 'type.note': 'Note',
+  'type.task': 'Task', 'type.gate': 'Gate', 'type.incident': 'Incident report', 'type.note': 'Note',
   'type.correction': 'Correction',
   'cat.staff': 'Staff', 'cat.family': 'Family', 'cat.visitor': 'Visitor', 'cat.contractor': 'Contractor', 'cat.other': 'Other',
   'patrol.full': 'full', 'patrol.ok': 'nothing to report', 'patrol.anomaly': 'anomaly',
@@ -163,7 +199,7 @@ const en = {
 const DICT = { fr, en };
 const SHIFT_KEY = 'amcari-shift-id';
 const AGENT_KEY = 'amcari-agent';
-const QUICK_ACTIONS = ['patrol', 'arrival', 'departure', 'delivery', 'task', 'gate', 'incident', 'note'];
+const ACTIONS = ['patrol', 'arrival', 'departure', 'delivery', 'event', 'incident'];
 const CATEGORIES = ['staff', 'family', 'visitor', 'contractor', 'other'];
 
 /* ---------- Outils ---------- */
@@ -197,7 +233,10 @@ function fromTimeInput(v) {
 const personKey = (m) => m.person_id || `n:${(m.person_name || '').trim().toLowerCase()}`;
 function computePresence(moves) {
   const map = new Map();
-  for (const m of moves) {
+  const sorted = [...moves].sort((a, b) => (a.occurred_at === b.occurred_at
+    ? String(a.created_at || '').localeCompare(String(b.created_at || ''))
+    : a.occurred_at < b.occurred_at ? -1 : 1));
+  for (const m of sorted) {
     const k = personKey(m);
     if (m.type === 'arrival') map.set(k, { key: k, person_id: m.person_id, name: m.person_name, category: m.person_category, since: m.occurred_at });
     else map.delete(k);
@@ -224,6 +263,7 @@ function describe(e) {
     case 'departure': base = t('desc.departure', { name: e.person_name }); break;
     case 'delivery': base = t('desc.delivery', { name: e.person_name || '' }).trim(); break;
     case 'task': base = e.action || t('type.task'); break;
+    case 'event': base = e.action ? `${t('type.event')} : ${e.action}` : t('type.event'); break;
     case 'gate': base = t(`gate.${e.action || 'open'}`); break;
     default: base = t(`type.${e.type}`);
   }
@@ -372,7 +412,7 @@ function timelineHtml(entries, withCorrect) {
   if (!entries.length) return `<p class="empty">${t('shift.empty')}</p>`;
   const byId = Object.fromEntries(entries.map((e) => [e.id, e]));
   return `<ol class="timeline">${entries.map((e) => `
-    <li class="tl tone-${e.type}${e.outcome === 'anomaly' ? ' is-anomaly' : ''}">
+    <li class="tl tone-${e.type}${e.outcome === 'anomaly' || e.type === 'anomaly' ? ' is-anomaly' : ''}">
       <time class="tl-time" datetime="${e.occurred_at}">${fmtTime(e.occurred_at)}${e.ended_at ? `<span class="tl-to">${fmtTime(e.ended_at)}</span>` : ''}</time>
       <div class="tl-body">
         <p class="tl-title">${esc(describe(e))}</p>
@@ -380,6 +420,7 @@ function timelineHtml(entries, withCorrect) {
         ${e.authorised_by ? `<p class="tl-meta">${esc(t('entry.authorisedBy', { name: e.authorised_by }))}</p>` : ''}
         ${e.id_checked ? `<p class="tl-meta">${t('entry.idChecked')}</p>` : ''}
         ${e.description ? `<p class="tl-desc pre">${esc(e.description)}</p>` : ''}
+        ${(e.photos || []).length ? `<div class="thumbs" data-photos="${esc(JSON.stringify(e.photos))}"></div>` : ''}
         ${e.corrects_entry_id ? `<p class="tl-meta">${esc(t('entry.correcting', { time: fmtTime(byId[e.corrects_entry_id]?.occurred_at) || '?' }))}</p>` : ''}
         ${isLate(e) ? `<p class="tl-meta">${esc(t('entry.late', { time: fmtTime(e.created_at) }))}</p>` : ''}
         ${withCorrect && e.type !== 'correction' && !(e.type === 'patrol' && !e.ended_at)
@@ -388,43 +429,129 @@ function timelineHtml(entries, withCorrect) {
     </li>`).join('')}</ol>`;
 }
 
+/* ---------- Photos ---------- */
+const uuid = () => (window.crypto && crypto.randomUUID ? crypto.randomUUID()
+  : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => { const r = Math.random() * 16 | 0; return (c === 'x' ? r : (r & 3 | 8)).toString(16); }));
+
+// Réduit la photo (1600 px max, JPEG) pour un envoi rapide en 4G
+async function compressImage(file, max = 1600, quality = 0.75) {
+  const url = URL.createObjectURL(file);
+  try {
+    const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = url; });
+    const scale = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+    const c = document.createElement('canvas');
+    c.width = Math.round(img.naturalWidth * scale);
+    c.height = Math.round(img.naturalHeight * scale);
+    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+    return await new Promise((res) => c.toBlob(res, 'image/jpeg', quality));
+  } finally {
+    URL.revokeObjectURL(url);
+  }
+}
+
+function photoPicker(container, label) {
+  const items = [];
+  container.innerHTML = `<div class="photos-field"><div class="thumbs edit"></div>
+    <label class="btn photo-btn">${esc(label || t('photo.add'))}<input type="file" accept="image/*" multiple hidden></label></div>`;
+  const input = container.querySelector('input');
+  const thumbs = container.querySelector('.thumbs');
+  function paint() {
+    thumbs.innerHTML = items.map((it, i) => `<figure><img src="${it.url}" alt="${esc(t('photo.alt'))}">
+      <button type="button" data-rm="${i}" aria-label="${esc(t('photo.remove'))}">✕</button></figure>`).join('');
+    thumbs.querySelectorAll('[data-rm]').forEach((b) => {
+      b.onclick = () => { const [r] = items.splice(+b.dataset.rm, 1); URL.revokeObjectURL(r.url); paint(); };
+    });
+  }
+  input.onchange = async () => {
+    for (const f of input.files) {
+      try { const blob = await compressImage(f); if (blob) items.push({ blob, url: URL.createObjectURL(blob) }); } catch { /* fichier illisible */ }
+    }
+    input.value = '';
+    paint();
+  };
+  return { blobs: () => items.map((it) => it.blob) };
+}
+
+async function uploadPhotos(siteId, blobs) {
+  const paths = [];
+  for (const b of blobs) {
+    const path = `${siteId}/${isoDate(new Date())}/${uuid()}.jpg`;
+    const { error } = await db.storage.from('photos').upload(path, b, { contentType: 'image/jpeg' });
+    if (error) throw new Error(t('photo.uploadError'));
+    paths.push(path);
+  }
+  return paths;
+}
+
+const signedCache = new Map();
+async function signedUrls(paths) {
+  const now = Date.now();
+  const missing = [...new Set(paths)].filter((p) => !(signedCache.get(p) && signedCache.get(p).exp > now));
+  if (missing.length) {
+    const { data } = await db.storage.from('photos').createSignedUrls(missing, 3600);
+    (data || []).forEach((d) => { if (d.signedUrl) signedCache.set(d.path, { url: d.signedUrl, exp: now + 50 * 60e3 }); });
+  }
+  return paths.map((p) => (signedCache.get(p) ? signedCache.get(p).url : null));
+}
+
+async function hydratePhotos(root) {
+  const holders = [...root.querySelectorAll('[data-photos]')];
+  if (!holders.length) return;
+  const all = holders.flatMap((h) => JSON.parse(h.dataset.photos));
+  try {
+    const urls = await signedUrls(all);
+    const map = Object.fromEntries(all.map((p, i) => [p, urls[i]]));
+    holders.forEach((h) => {
+      h.innerHTML = JSON.parse(h.dataset.photos).map((p) => (map[p]
+        ? `<a href="${esc(map[p])}" target="_blank" rel="noopener"><img src="${esc(map[p])}" alt="${esc(t('photo.alt'))}" loading="lazy"></a>` : '')).join('');
+    });
+  } catch { /* photos indisponibles */ }
+}
+
+/* ---------- Écran de service ---------- */
 async function renderShift(main) {
   const shift = currentShift;
   const site = shift.sites;
   let entries = [];
   let people = [];
   let moves = [];
+  let checkedIds = new Set();
   let errMsg = '';
+  let patrolStart = null;
 
   async function load() {
     const since = new Date(new Date(shift.started_at).getTime() - 24 * 3600e3).toISOString();
-    const [e, p, m] = await Promise.all([
+    const [e, p, m, c] = await Promise.all([
       db.from('log_entries').select('*').eq('shift_id', shift.id).order('occurred_at', { ascending: false }).order('created_at', { ascending: false }),
       db.from('people').select('*').eq('site_id', site.id).eq('active', true).order('full_name'),
-      db.from('log_entries').select('type, person_id, person_name, person_category, occurred_at')
+      db.from('log_entries').select('type, person_id, person_name, person_category, occurred_at, created_at')
         .eq('site_id', site.id).in('type', ['arrival', 'departure']).gte('occurred_at', since).order('occurred_at'),
+      db.from('log_entries').select('person_id').eq('site_id', site.id).eq('id_checked', true),
     ]);
     const firstErr = e.error || p.error || m.error;
     errMsg = firstErr ? firstErr.message : '';
-    entries = e.data || []; people = p.data || []; moves = m.data || [];
+    entries = e.data || [];
+    people = p.data || [];
+    moves = m.data || [];
+    checkedIds = new Set((c.data || []).map((x) => x.person_id).filter(Boolean));
     draw();
   }
 
+  const zones = () => siteText(site, 'zones') || [];
+  const headerHtml = (title, sub) => `<header class="shift-head">
+      <div><h1 class="h-page">${esc(title)}</h1><p class="muted">${sub}</p></div>
+      <div class="clock" id="clock">${fmtTime(new Date())}</div></header>
+      ${errMsg ? `<p class="error" role="alert">${esc(errMsg)}</p>` : ''}`;
+
   function draw() {
-    const presence = computePresence(moves);
     const activePatrol = entries.find((x) => x.type === 'patrol' && !x.ended_at);
+    if (activePatrol) return drawPatrol(activePatrol);
+    patrolStart = null;
+    const presence = computePresence(moves);
     main.innerHTML = `<div class="shift">
-      <header class="shift-head">
-        <div><h1 class="h-page">${esc(site.name)}</h1>
-          <p class="muted">${esc(t('shift.since', { time: fmtTime(shift.started_at) }))}, ${esc(agentName(shift))}</p></div>
-        <div class="clock" id="clock">${fmtTime(new Date())}</div>
-      </header>
-      ${errMsg ? `<p class="error" role="alert">${esc(errMsg)}</p>` : ''}
+      ${headerHtml(site.name, `${esc(t('shift.since', { time: fmtTime(shift.started_at) }))}, ${esc(agentName(shift))}`)}
       ${shift.instructions_received ? `<details class="note-block"><summary>${t('shift.instructions')}</summary><p class="pre">${esc(shift.instructions_received)}</p></details>` : ''}
-      ${activePatrol ? `<div class="patrol-live" role="status"><span>${esc(t('shift.patrolLive', { time: fmtTime(activePatrol.occurred_at) }))}</span>
-        <button class="btn" data-act="patrol">${t('shift.patrolEnd')}</button></div>` : ''}
-      <div class="actions">${QUICK_ACTIONS.map((a) =>
-        `<button class="action tone-${a}" data-act="${a}">${a === 'patrol' && activePatrol ? t('shift.patrolEnd') : t(`type.${a}`)}</button>`).join('')}</div>
+      <div class="actions">${ACTIONS.map((a) => `<button class="action tone-${a}" data-act="${a}">${t(`btn.${a}`)}</button>`).join('')}</div>
       <section class="block"><h2 class="h-section">${esc(t('shift.onSite', { n: presence.length }))}</h2>
         ${presence.length ? `<ul class="chips">${presence.map((p) =>
           `<li><span>${esc(p.name)}</span><small>${t(`cat.${p.category || 'other'}`)}, ${fmtTime(p.since)}</small></li>`).join('')}</ul>`
@@ -437,17 +564,42 @@ async function renderShift(main) {
         <button class="btn primary" id="endBtn">${t('shift.end')}</button>
       </div></div>`;
 
-    main.querySelectorAll('[data-act]').forEach((b) => { b.onclick = () => onAction(b.dataset.act, activePatrol); });
+    main.querySelectorAll('[data-act]').forEach((b) => {
+      b.onclick = () => {
+        const a = b.dataset.act;
+        if (a === 'patrol') return startPatrol();
+        if (a === 'arrival') return registerInForm();
+        if (a === 'departure') return registerOutForm(presence);
+        return reportForm(a);
+      };
+    });
     main.querySelectorAll('[data-correct]').forEach((b) => {
-      b.onclick = () => entryForm('correction', entries.find((x) => x.id === b.dataset.correct), presence);
+      b.onclick = () => reportForm('correction', { corrects: entries.find((x) => x.id === b.dataset.correct) });
     });
     main.querySelector('#sosBtn').onclick = sos;
+    main.querySelector('#endBtn').onclick = endShift;
     main.querySelector('#pdfBtn').onclick = (ev) => exportShiftPdf(shift.id, ev.currentTarget);
-    main.querySelector('#endBtn').onclick = () => endShift(activePatrol);
-    function onAction(type) {
-      if (type === 'patrol') return activePatrol ? patrolClose(activePatrol) : startPatrol();
-      entryForm(type, null, presence);
-    }
+    hydratePhotos(main);
+  }
+
+  /* --- Ronde : écran dédié --- */
+  function drawPatrol(p) {
+    patrolStart = new Date(p.occurred_at);
+    const anomalies = entries.filter((x) => x.type === 'anomaly' && x.patrol_id === p.id);
+    main.innerHTML = `<div class="shift patrol-mode">
+      ${headerHtml(t('patrol.title'), `${esc(site.name)}, ${esc(t('patrol.since', { time: fmtTime(p.occurred_at) }))} <span id="elapsed"></span>`)}
+      <button class="btn big alert-btn" id="anoBtn">${t('patrol.report')}</button>
+      <section class="block"><h2 class="h-section">${esc(t('patrol.anomalies', { n: anomalies.length }))}</h2>
+        ${anomalies.length ? timelineHtml(anomalies, false) : `<p class="muted small">${t('patrol.none')}</p>`}</section>
+      <div class="foot-actions">
+        <button class="btn" id="sosBtn">${t('shift.sos')}</button>
+        <button class="btn primary" id="finBtn">${t('patrol.end')}</button>
+      </div></div>`;
+    main.querySelector('#anoBtn').onclick = () => reportForm('anomaly', { patrol: p });
+    main.querySelector('#finBtn').onclick = () => finishPatrol(p, anomalies.length);
+    main.querySelector('#sosBtn').onclick = sos;
+    tick();
+    hydratePhotos(main);
   }
 
   async function startPatrol() {
@@ -456,244 +608,382 @@ async function renderShift(main) {
     load();
   }
 
-  function zoneSelectHtml(id, emptyLabel) {
-    const zones = siteText(site, 'zones') || [];
-    if (!zones.length) return '';
-    return `<label>${t(id === 'pzone' ? 'patrolClose.zone' : 'form.zone')}<select id="${id}"><option value="">${esc(emptyLabel)}</option>
-      ${zones.map((z) => `<option value="${esc(z)}">${esc(z)}</option>`).join('')}</select></label>`;
+  function finishPatrol(p, count) {
+    const z = zones();
+    const { el, close } = openModal(t('patrol.end'), `<form class="stack" novalidate>
+      <p class="${count ? 'alert-text' : 'muted'}">${esc(count ? t('patrol.summary', { n: count }) : t('patrol.summaryOk'))}</p>
+      ${z.length ? `<label>${t('patrolClose.zone')}<select id="pzone"><option value="">${esc(t('patrolClose.full'))}</option>
+        ${z.map((x) => `<option value="${esc(x)}">${esc(x)}</option>`).join('')}</select></label>` : ''}
+      <label>${t('form.comment')}<textarea id="pdesc" rows="3"></textarea></label>
+      <p id="perr" class="error" role="alert" hidden></p>
+      <div class="row-end"><button type="button" class="btn" data-close>${t('common.cancel')}</button>
+      <button type="submit" class="btn primary">${t('patrol.confirm')}</button></div></form>`);
+    el.querySelector('form').onsubmit = async (ev) => {
+      ev.preventDefault();
+      const zs = el.querySelector('#pzone');
+      const { error } = await db.from('log_entries').update({
+        ended_at: new Date().toISOString(),
+        outcome: count ? 'anomaly' : 'ok',
+        zone: (zs && zs.value) || null,
+        description: el.querySelector('#pdesc').value.trim() || null,
+      }).eq('id', p.id);
+      if (error) return showErr(el.querySelector('#perr'), error.message);
+      close();
+      load();
+    };
   }
 
-  function entryForm(type, corrects, presence) {
-    const needsPerson = type === 'arrival' || type === 'departure';
-    const needsDesc = ['incident', 'note', 'correction'].includes(type);
+  /* --- Champs communs --- */
+  function locationHtml() {
+    const z = zones();
+    return `<div class="stack-s"><label>${t('form.location')}<input id="loc" autocomplete="off"></label>
+      ${z.length ? `<div class="pick small-pick">${z.map((x, i) => `<button type="button" data-zone="${i}">${esc(x)}</button>`).join('')}</div>` : ''}</div>`;
+  }
+  function bindLocation(el) {
+    const z = zones();
+    el.querySelectorAll('[data-zone]').forEach((b) => {
+      b.onclick = () => {
+        el.querySelector('#loc').value = z[+b.dataset.zone];
+        el.querySelectorAll('[data-zone]').forEach((x) => x.setAttribute('aria-pressed', x === b));
+      };
+    });
+  }
+  const timeHtml = () => `<label class="time-field">${t('form.time')}<input type="time" id="time" value="${timeInputValue(new Date())}" required></label>`;
+
+  /* --- Rapports (événement, incident, anomalie, livraison, rectification) --- */
+  function reportForm(type, opts = {}) {
     const tasks = siteText(site, 'quick_tasks') || [];
-    const contacts = siteText(site, 'access_contacts') || [];
-    const st = { category: 'staff', personId: '', otherName: '', addReg: true, authBy: '', idChecked: false, prevCheck: null, accessKey: null, action: type === 'gate' ? 'open' : '' };
-
-    const optionLabel = (p) => {
-      let l = p.full_name + (p.role ? `, ${roleText(site, p.role)}` : '');
-      if (p.access_status === 'pending') l += ` (${t('access.pendingTag')})`;
-      if (p.access_status === 'refused') l += ` (${t('access.refusedTag')})`;
-      return l;
-    };
-
+    const descRequired = type !== 'delivery';
+    const withPhotos = type !== 'correction';
+    let subject = '';
     let html = '<form class="stack" novalidate>';
-    if (type === 'correction') html += `<p class="muted small">${esc(t('form.correctionHelp', { time: fmtTime(corrects.occurred_at) }))}</p>`;
-    if (type === 'departure' && presence.length) {
-      html += `<fieldset><legend>${t('form.present')}</legend><div class="pick">${presence.map((p, i) =>
-        `<button type="button" data-present="${i}" aria-pressed="false">${esc(p.name)}</button>`).join('')}</div></fieldset>`;
-    }
-    if (needsPerson) {
-      html += `<fieldset><legend>${t('form.category')}</legend><div class="segmented">${CATEGORIES.map((c) =>
-        `<button type="button" data-cat="${c}" aria-pressed="${c === st.category}">${t(`cat.${c}`)}</button>`).join('')}</div></fieldset>
-        <label>${t('form.person')}<select id="person"></select></label>
-        <div id="otherBox" class="stack" hidden>
-          <label>${t('form.name')}<input id="otherName"></label>
-          <label class="check"><input type="checkbox" id="addReg" checked>${t('form.addToRegistry')}</label>
-        </div>
-        <div id="accessBox"></div>`;
-    }
+    if (type === 'correction') html += `<p class="muted small">${esc(t('form.correctionHelp', { time: fmtTime(opts.corrects.occurred_at) }))}</p>`;
     if (type === 'delivery') html += `<label>${t('form.company')}<input id="company"></label>`;
-    if (type === 'task') {
-      if (tasks.length) html += `<div class="pick">${tasks.map((tk, i) => `<button type="button" data-task="${i}" aria-pressed="false">${esc(tk)}</button>`).join('')}</div>`;
-      html += `<label>${tasks.length ? t('form.otherTask') : t('form.task')}<input id="taskInput"></label>`;
+    if (type === 'event' && tasks.length) {
+      html += `<fieldset><legend>${t('form.subject')}</legend><div class="pick">${tasks.map((tk, i) =>
+        `<button type="button" data-task="${i}" aria-pressed="false">${esc(tk)}</button>`).join('')}</div></fieldset>`;
     }
-    if (type === 'gate') {
-      html += `<fieldset><legend>${t('form.gateAction')}</legend><div class="segmented">${['open', 'close'].map((a) =>
-        `<button type="button" data-gate="${a}" aria-pressed="${a === st.action}">${t(`gate.${a}`)}</button>`).join('')}</div></fieldset>`;
-    }
-    if (type !== 'correction') {
-      html += zoneSelectHtml('zone', t('form.anyZone'));
-      html += `<label class="time-field">${t('form.time')}<input type="time" id="time" value="${timeInputValue(new Date())}" required></label>`;
-    }
-    html += `<label>${t('form.desc')}<textarea id="desc" rows="${type === 'incident' || type === 'correction' ? 5 : 3}"></textarea></label>
-      <p id="ferr" class="error" role="alert" hidden></p>
+    if (type !== 'correction') html += locationHtml() + timeHtml();
+    html += `<label>${type === 'delivery' ? t('form.comment') : t('form.desc')}<textarea id="desc" rows="${type === 'delivery' ? 3 : 5}"></textarea></label>`;
+    if (withPhotos) html += '<div id="photos"></div>';
+    html += `<p id="ferr" class="error" role="alert" hidden></p>
       <div class="row-end"><button type="button" class="btn" data-close>${t('common.cancel')}</button>
       <button type="submit" class="btn primary">${t('common.save')}</button></div></form>`;
 
-    const { el, close } = openModal(t(`type.${type}`), html);
-    const $ = (s) => el.querySelector(s);
-    const ferr = $('#ferr');
+    const { el, close } = openModal(t(`btn.${type}`), html);
+    const ferr = el.querySelector('#ferr');
+    const picker = withPhotos ? photoPicker(el.querySelector('#photos')) : null;
+    bindLocation(el);
+    el.querySelectorAll('[data-task]').forEach((b) => {
+      b.onclick = () => {
+        const v = tasks[+b.dataset.task];
+        subject = subject === v ? '' : v;
+        el.querySelectorAll('[data-task]').forEach((x) => x.setAttribute('aria-pressed', x === b && subject === v));
+      };
+    });
 
-    const selected = () => (st.personId && st.personId !== 'other' ? people.find((p) => p.id === st.personId) : null);
-    const accessStatus = () => {
-      if (type !== 'arrival') return null;
-      const p = selected();
-      if (p) return p.access_status || 'pending';
-      return st.personId === 'other' || st.otherName.trim() ? 'unknown' : null;
+    el.querySelector('form').onsubmit = async (ev) => {
+      ev.preventDefault();
+      showErr(ferr, '');
+      const desc = el.querySelector('#desc').value.trim();
+      if (descRequired && !desc) return showErr(ferr, t('form.descRequired'));
+      const submit = el.querySelector('button[type=submit]');
+      submit.disabled = true;
+      submit.textContent = t('common.wait');
+      try {
+        const photos = picker ? await uploadPhotos(site.id, picker.blobs()) : [];
+        const loc = el.querySelector('#loc');
+        const { error } = await db.from('log_entries').insert({
+          shift_id: shift.id,
+          site_id: site.id,
+          type,
+          occurred_at: type === 'correction' ? new Date().toISOString() : fromTimeInput(el.querySelector('#time').value).toISOString(),
+          person_name: type === 'delivery' ? (el.querySelector('#company').value.trim() || null) : null,
+          zone: (loc && loc.value.trim()) || null,
+          action: subject || null,
+          description: desc || null,
+          photos,
+          patrol_id: opts.patrol ? opts.patrol.id : null,
+          corrects_entry_id: opts.corrects ? opts.corrects.id : null,
+        });
+        if (error) throw error;
+        close();
+        load();
+      } catch (err) {
+        submit.disabled = false;
+        submit.textContent = t('common.save');
+        showErr(ferr, err.message);
+      }
     };
+  }
 
-    function fillPersons() {
-      if (!needsPerson) return;
-      const list = people.filter((p) => p.category === st.category);
-      $('#person').innerHTML = `<option value="">${t('form.choose')}</option>${list.map((p) =>
-        `<option value="${p.id}">${esc(optionLabel(p))}</option>`).join('')}<option value="other">${t('form.otherPerson')}</option>`;
-      $('#person').value = st.personId && (st.personId === 'other' || list.some((p) => p.id === st.personId)) ? st.personId : '';
-      $('#otherBox').hidden = !(st.personId === 'other' || (!st.personId && list.length === 0));
-      el.querySelectorAll('[data-cat]').forEach((b) => b.setAttribute('aria-pressed', b.dataset.cat === st.category));
+  /* --- Registre des entrées (plusieurs personnes à la fois) --- */
+  function registerInForm() {
+    const contacts = siteText(site, 'access_contacts') || [];
+    const selected = new Map();
+    const extras = [];
+    let category = 'staff';
+    let search = '';
+    let authBy = '';
+    let idChecked = false;
+    let accessKey = null;
+
+    const { el, close } = openModal(t('btn.arrival'), `<form class="stack" novalidate>
+      <fieldset><legend>${t('form.category')}</legend><div class="segmented">${CATEGORIES.map((c) =>
+        `<button type="button" data-cat="${c}" aria-pressed="${c === category}">${t(`cat.${c}`)}</button>`).join('')}</div></fieldset>
+      <input type="search" id="search" placeholder="${esc(t('reg.search'))}" aria-label="${esc(t('reg.search'))}">
+      <div class="row-between"><span class="muted small" id="count"></span><button type="button" class="link small" id="all"></button></div>
+      <ul class="checklist" id="plist"></ul>
+      <div id="extras" class="stack"></div>
+      <button type="button" class="btn" id="addExtra">${t('reg.addUnlisted')}</button>
+      <div id="accessBox"></div>
+      ${locationHtml()}${timeHtml()}
+      <label>${t('form.comment')}<textarea id="desc" rows="2"></textarea></label>
+      <p id="ferr" class="error" role="alert" hidden></p>
+      <div class="row-end"><button type="button" class="btn" data-close>${t('common.cancel')}</button>
+      <button type="submit" class="btn primary" id="save"></button></div></form>`);
+    const $ = (s) => el.querySelector(s);
+    bindLocation(el);
+
+    const visible = () => people.filter((p) => p.category === category
+      && (!search || p.full_name.toLowerCase().includes(search.toLowerCase())));
+    const total = () => selected.size + extras.length;
+    const pendingSelected = () => [...selected.values()].filter((p) => (p.access_status || 'pending') === 'pending');
+
+    function paintList() {
+      const list = visible();
+      $('#plist').innerHTML = list.length ? list.map((p) => {
+        const refused = p.access_status === 'refused';
+        const tag = refused ? t('access.refusedTag') : p.access_status === 'pending' ? t('access.pendingTag') : '';
+        return `<li><label class="check person${refused ? ' is-refused' : ''}">
+          <input type="checkbox" data-pid="${p.id}" ${selected.has(p.id) ? 'checked' : ''} ${refused ? 'disabled' : ''}>
+          <span><strong>${esc(p.full_name)}</strong>${p.role || tag ? `<small>${esc([roleText(site, p.role), tag].filter(Boolean).join(', '))}</small>` : ''}</span>
+        </label></li>`;
+      }).join('') : `<li class="muted small">${t('reg.emptyCategory')}</li>`;
+      $('#plist').querySelectorAll('[data-pid]').forEach((cb) => {
+        cb.onchange = () => {
+          const p = people.find((x) => x.id === cb.dataset.pid);
+          if (cb.checked) selected.set(p.id, p); else selected.delete(p.id);
+          paintStatus();
+        };
+      });
+      el.querySelectorAll('[data-cat]').forEach((b) => b.setAttribute('aria-pressed', b.dataset.cat === category));
+      paintStatus();
     }
 
-    function refreshAccess() {
-      if (type !== 'arrival') return;
-      const status = accessStatus();
-      const needsAuth = status === 'pending' || status === 'unknown';
-      const key = `${status}|${st.prevCheck ? 1 : 0}`;
-      if (key === st.accessKey) return;
-      st.accessKey = key;
+    function paintStatus() {
+      const selectable = visible().filter((p) => p.access_status !== 'refused');
+      const allOn = selectable.length && selectable.every((p) => selected.has(p.id));
+      $('#all').textContent = allOn ? t('reg.unselectAll') : t('reg.selectAll');
+      $('#all').hidden = !selectable.length;
+      $('#count').textContent = t('reg.selected', { n: total() });
+      $('#save').textContent = t('reg.save', { n: total() });
+      paintAccess();
+    }
+
+    function paintAccess() {
+      const pend = pendingSelected();
+      const named = extras.filter((x) => x.name.trim());
+      const needsAuth = pend.length > 0 || extras.length > 0;
+      const needsId = extras.length > 0 || pend.some((p) => !checkedIds.has(p.id));
+      const names = [...pend.map((p) => p.full_name), ...named.map((x) => x.name.trim())];
+      const key = `${needsAuth}|${needsId}|${names.join(',')}|${extras.length}`;
+      if (key === accessKey) return;
+      accessKey = key;
       const box = $('#accessBox');
-      if (!status) { box.innerHTML = ''; return; }
-      box.innerHTML = `<div class="access access-${status}" role="status">
-        <p class="access-msg">${t(`access.${status}`)}</p>
-        ${needsAuth ? `
-          ${contacts.length ? `<ul class="contacts">${contacts.map((c) => `<li>
-            <a class="btn" href="tel:${esc(String(c.phone).replace(/\s/g, ''))}">${esc(c.name)}, ${esc(c.phone)}</a>
-            ${c.note ? `<small class="muted">${esc(c.note)}</small>` : ''}</li>`).join('')}</ul>` : ''}
-          <fieldset><legend>${t('access.authorisedBy')}</legend>
-            ${contacts.length ? `<div class="pick">${contacts.map((c, i) =>
-              `<button type="button" data-auth="${i}" aria-pressed="${st.authBy === c.name}">${esc(c.name)}</button>`).join('')}</div>` : ''}
-            <input id="authBy" value="${esc(st.authBy)}" aria-label="${esc(t('access.authorisedBy'))}">
-          </fieldset>
-          ${st.prevCheck
-            ? `<p class="small">${esc(t('access.idAlready', { date: fmtDate(st.prevCheck.occurred_at) }))}</p>`
-            : `<label class="check"><input type="checkbox" id="idChecked" ${st.idChecked ? 'checked' : ''}>${t('access.idChecked')}</label>`}
-        ` : ''}</div>`;
+      if (!needsAuth) { box.innerHTML = ''; return; }
+      box.innerHTML = `<div class="access access-pending" role="status">
+        <p class="access-msg">${t('access.pending')}</p>
+        ${names.length ? `<p class="small">${esc(t('reg.needApproval', { names: names.join(', ') }))}</p>` : ''}
+        ${contacts.length ? `<ul class="contacts">${contacts.map((c) => `<li>
+          <a class="btn" href="tel:${esc(String(c.phone).replace(/\s/g, ''))}">${esc(c.name)}, ${esc(c.phone)}</a>
+          ${c.note ? `<small class="muted">${esc(c.note)}</small>` : ''}</li>`).join('')}</ul>` : ''}
+        <fieldset><legend>${t('access.authorisedBy')}</legend>
+          ${contacts.length ? `<div class="pick">${contacts.map((c, i) =>
+            `<button type="button" data-auth="${i}" aria-pressed="${authBy === c.name}">${esc(c.name)}</button>`).join('')}</div>` : ''}
+          <input id="authBy" value="${esc(authBy)}" aria-label="${esc(t('access.authorisedBy'))}">
+        </fieldset>
+        ${needsId ? `<label class="check"><input type="checkbox" id="idChecked" ${idChecked ? 'checked' : ''}>${t('reg.idCheckedGroup')}</label>` : ''}
+      </div>`;
       box.querySelectorAll('[data-auth]').forEach((b) => {
         b.onclick = () => {
-          st.authBy = contacts[+b.dataset.auth].name;
-          $('#authBy').value = st.authBy;
+          authBy = contacts[+b.dataset.auth].name;
+          $('#authBy').value = authBy;
           box.querySelectorAll('[data-auth]').forEach((x) => x.setAttribute('aria-pressed', x === b));
         };
       });
-      const ab = $('#authBy'); if (ab) ab.oninput = () => { st.authBy = ab.value; };
-      const ic = $('#idChecked'); if (ic) ic.onchange = () => { st.idChecked = ic.checked; };
+      $('#authBy').oninput = () => { authBy = $('#authBy').value; };
+      const ic = $('#idChecked');
+      if (ic) ic.onchange = () => { idChecked = ic.checked; };
     }
 
-    async function onPersonChange() {
-      st.prevCheck = null;
-      fillPersons();
-      refreshAccess();
-      const p = selected();
-      if (type === 'arrival' && p && p.access_status !== 'authorised') {
-        const { data } = await db.from('log_entries').select('occurred_at')
-          .eq('person_id', p.id).eq('id_checked', true).order('occurred_at').limit(1).maybeSingle();
-        if (selected() === p) { st.prevCheck = data; refreshAccess(); }
-      }
+    function addExtra() {
+      const x = { key: uuid(), name: '', category: category === 'staff' ? 'visitor' : category, addReg: true, picker: null };
+      extras.push(x);
+      const row = document.createElement('div');
+      row.className = 'extra stack-s';
+      row.innerHTML = `<div class="row-between"><strong>${t('reg.unlisted')}</strong>
+          <button type="button" class="link small" data-rmx>${t('reg.remove')}</button></div>
+        <label>${t('reg.unlistedName')}<input data-xname></label>
+        <label>${t('form.category')}<select data-xcat>${CATEGORIES.map((c) =>
+          `<option value="${c}" ${c === x.category ? 'selected' : ''}>${t(`cat.${c}`)}</option>`).join('')}</select></label>
+        <div data-xphoto></div>
+        <label class="check"><input type="checkbox" data-xreg checked>${t('form.addToRegistry')}</label>`;
+      $('#extras').appendChild(row);
+      x.picker = photoPicker(row.querySelector('[data-xphoto]'), t('photo.id'));
+      row.querySelector('[data-xname]').oninput = (e) => { x.name = e.target.value; paintAccess(); };
+      row.querySelector('[data-xcat]').onchange = (e) => { x.category = e.target.value; };
+      row.querySelector('[data-xreg]').onchange = (e) => { x.addReg = e.target.checked; };
+      row.querySelector('[data-rmx]').onclick = () => { extras.splice(extras.indexOf(x), 1); row.remove(); paintStatus(); };
+      row.querySelector('[data-xname]').focus();
+      paintStatus();
     }
 
-    if (needsPerson) {
-      fillPersons();
-      el.querySelectorAll('[data-cat]').forEach((b) => { b.onclick = () => { st.category = b.dataset.cat; st.personId = ''; onPersonChange(); }; });
-      $('#person').onchange = () => { st.personId = $('#person').value; onPersonChange(); };
-      $('#otherName').oninput = () => {
-        st.otherName = $('#otherName').value;
-        if (!st.personId) st.personId = 'other';
-        refreshAccess();
-      };
-      $('#addReg').onchange = () => { st.addReg = $('#addReg').checked; };
-      el.querySelectorAll('[data-present]').forEach((b) => {
-        b.onclick = () => {
-          const p = presence[+b.dataset.present];
-          st.category = p.category || 'other';
-          if (p.person_id) { st.personId = p.person_id; st.otherName = ''; }
-          else { st.personId = 'other'; st.otherName = p.name; st.addReg = false; $('#otherName').value = p.name; $('#addReg').checked = false; }
-          el.querySelectorAll('[data-present]').forEach((x) => x.setAttribute('aria-pressed', x === b));
-          onPersonChange();
-        };
-      });
-    }
-    el.querySelectorAll('[data-task]').forEach((b) => {
-      b.onclick = () => {
-        st.action = tasks[+b.dataset.task]; $('#taskInput').value = '';
-        el.querySelectorAll('[data-task]').forEach((x) => x.setAttribute('aria-pressed', x === b));
-      };
-    });
-    if ($('#taskInput')) $('#taskInput').oninput = () => {
-      st.action = $('#taskInput').value;
-      el.querySelectorAll('[data-task]').forEach((x) => x.setAttribute('aria-pressed', 'false'));
+    el.querySelectorAll('[data-cat]').forEach((b) => { b.onclick = () => { category = b.dataset.cat; paintList(); }; });
+    $('#search').oninput = () => { search = $('#search').value.trim(); paintList(); };
+    $('#all').onclick = () => {
+      const selectable = visible().filter((p) => p.access_status !== 'refused');
+      const allOn = selectable.every((p) => selected.has(p.id));
+      selectable.forEach((p) => (allOn ? selected.delete(p.id) : selected.set(p.id, p)));
+      paintList();
     };
-    el.querySelectorAll('[data-gate]').forEach((b) => {
-      b.onclick = () => { st.action = b.dataset.gate; el.querySelectorAll('[data-gate]').forEach((x) => x.setAttribute('aria-pressed', x === b)); };
-    });
+    $('#addExtra').onclick = addExtra;
+    paintList();
 
-    $('form').onsubmit = async (ev) => {
-      ev.preventDefault();
-      showErr(ferr, '');
-      const desc = $('#desc').value.trim();
-      let person_id = null;
-      let person_name = null;
-      if (needsPerson) {
-        const p = selected();
-        if (p) { person_id = p.id; person_name = p.full_name; }
-        else { person_name = st.otherName.trim(); if (!person_name) return showErr(ferr, t('form.nameRequired')); }
-      }
-      if (type === 'delivery') person_name = $('#company').value.trim() || null;
-      if (type === 'task' && !st.action.trim()) return showErr(ferr, t('form.taskRequired'));
-      const status = accessStatus();
-      const needsAuth = status === 'pending' || status === 'unknown';
-      const needsIdCheck = needsAuth && !st.prevCheck;
-      if (status === 'refused') return showErr(ferr, t('access.refused'));
-      if (needsAuth && !st.authBy.trim()) return showErr(ferr, t('access.authRequired'));
-      if (needsIdCheck && !st.idChecked) return showErr(ferr, t('access.idRequired'));
-      if (needsDesc && !desc) return showErr(ferr, t('form.descRequired'));
-
-      const submit = $('button[type=submit]');
-      submit.disabled = true;
-      if (needsPerson && !person_id && st.addReg) {
-        const { data } = await db.from('people').insert({ site_id: site.id, full_name: person_name, category: st.category }).select().single();
-        if (data) person_id = data.id;
-      }
-      const { error } = await db.from('log_entries').insert({
-        shift_id: shift.id,
-        site_id: site.id,
-        type,
-        occurred_at: type === 'correction' ? new Date().toISOString() : fromTimeInput($('#time').value).toISOString(),
-        person_id,
-        person_name,
-        person_category: needsPerson ? st.category : null,
-        zone: ($('#zone') && $('#zone').value) || null,
-        action: st.action.trim() || null,
-        description: desc || null,
-        corrects_entry_id: corrects ? corrects.id : null,
-        authorised_by: needsAuth ? st.authBy.trim() : null,
-        id_checked: needsIdCheck ? st.idChecked : false,
-      });
-      if (error) { submit.disabled = false; return showErr(ferr, error.message); }
-      close();
-      load();
-    };
-  }
-
-  function patrolClose(entry) {
-    let outcome = 'ok';
-    const { el, close } = openModal(t('patrolClose.title'), `<form class="stack" novalidate>
-      <p class="muted">${esc(t('shift.patrolLive', { time: fmtTime(entry.occurred_at) }))}</p>
-      <fieldset><legend>${t('patrolClose.result')}</legend><div class="segmented outcome">
-        <button type="button" data-out="ok" aria-pressed="true">${t('patrol.ok')}</button>
-        <button type="button" data-out="anomaly" class="danger" aria-pressed="false">${t('patrol.anomaly')}</button></div></fieldset>
-      ${zoneSelectHtml('pzone', t('patrolClose.full'))}
-      <label>${t('form.desc')}<textarea id="pdesc" rows="4"></textarea></label>
-      <p id="perr" class="error" role="alert" hidden></p>
-      <div class="row-end"><button type="button" class="btn" data-close>${t('common.cancel')}</button>
-      <button type="submit" class="btn primary">${t('common.save')}</button></div></form>`);
-    el.querySelectorAll('[data-out]').forEach((b) => {
-      b.onclick = () => { outcome = b.dataset.out; el.querySelectorAll('[data-out]').forEach((x) => x.setAttribute('aria-pressed', x === b)); };
-    });
     el.querySelector('form').onsubmit = async (ev) => {
       ev.preventDefault();
-      const desc = el.querySelector('#pdesc').value.trim();
-      const perr = el.querySelector('#perr');
-      if (outcome === 'anomaly' && !desc) return showErr(perr, t('patrolClose.descRequired'));
-      const z = el.querySelector('#pzone');
-      const { error } = await db.from('log_entries')
-        .update({ ended_at: new Date().toISOString(), outcome, zone: (z && z.value) || null, description: desc || null })
-        .eq('id', entry.id);
-      if (error) return showErr(perr, error.message);
+      const ferr = $('#ferr');
+      showErr(ferr, '');
+      if (!total()) return showErr(ferr, t('reg.noneSelected'));
+      if (extras.some((x) => !x.name.trim())) return showErr(ferr, t('form.nameRequired'));
+      const pend = pendingSelected();
+      const needsAuth = pend.length > 0 || extras.length > 0;
+      const needsId = extras.length > 0 || pend.some((p) => !checkedIds.has(p.id));
+      if (needsAuth && !authBy.trim()) return showErr(ferr, t('access.authRequired'));
+      if (needsId && !idChecked) return showErr(ferr, t('access.idRequired'));
+
+      const submit = $('#save');
+      submit.disabled = true;
+      submit.textContent = t('common.wait');
+      try {
+        const base = {
+          shift_id: shift.id,
+          site_id: site.id,
+          type: 'arrival',
+          occurred_at: fromTimeInput($('#time').value).toISOString(),
+          zone: $('#loc').value.trim() || null,
+          description: $('#desc').value.trim() || null,
+        };
+        const rows = [...selected.values()].map((p) => {
+          const pending = (p.access_status || 'pending') === 'pending';
+          return {
+            ...base, person_id: p.id, person_name: p.full_name, person_category: p.category,
+            authorised_by: pending ? authBy.trim() : null,
+            id_checked: pending && !checkedIds.has(p.id),
+          };
+        });
+        for (const x of extras) {
+          let personId = null;
+          if (x.addReg) {
+            const { data } = await db.from('people').insert({ site_id: site.id, full_name: x.name.trim(), category: x.category }).select().single();
+            if (data) personId = data.id;
+          }
+          const photos = await uploadPhotos(site.id, x.picker.blobs());
+          rows.push({
+            ...base, person_id: personId, person_name: x.name.trim(), person_category: x.category,
+            authorised_by: authBy.trim(), id_checked: true, photos,
+          });
+        }
+        const { error } = await db.from('log_entries').insert(rows);
+        if (error) throw error;
+        close();
+        load();
+      } catch (err) {
+        submit.disabled = false;
+        submit.textContent = t('reg.save', { n: total() });
+        showErr(ferr, err.message);
+      }
+    };
+  }
+
+  /* --- Registre des sorties --- */
+  function registerOutForm(presence) {
+    const selected = new Set();
+    const extras = [];
+    const { el, close } = openModal(t('btn.departure'), `<form class="stack" novalidate>
+      ${presence.length ? `<div class="row-between"><span class="muted small" id="count"></span>
+        <button type="button" class="link small" id="all"></button></div>
+        <ul class="checklist">${presence.map((p, i) => `<li><label class="check person">
+          <input type="checkbox" data-i="${i}"><span><strong>${esc(p.name)}</strong>
+          <small>${t(`cat.${p.category || 'other'}`)}, ${fmtTime(p.since)}</small></span></label></li>`).join('')}</ul>`
+        : `<p class="muted">${t('shift.nobody')}</p>`}
+      <div id="extras" class="stack"></div>
+      <button type="button" class="btn" id="addExtra">${t('reg.addUnlisted')}</button>
+      ${timeHtml()}
+      <label>${t('form.comment')}<textarea id="desc" rows="2"></textarea></label>
+      <p id="ferr" class="error" role="alert" hidden></p>
+      <div class="row-end"><button type="button" class="btn" data-close>${t('common.cancel')}</button>
+      <button type="submit" class="btn primary" id="save"></button></div></form>`);
+    const $ = (s) => el.querySelector(s);
+    const total = () => selected.size + extras.length;
+    function paint() {
+      if ($('#count')) $('#count').textContent = t('reg.selected', { n: total() });
+      if ($('#all')) $('#all').textContent = selected.size === presence.length ? t('reg.unselectAll') : t('reg.selectAll');
+      $('#save').textContent = t('reg.save', { n: total() });
+    }
+    el.querySelectorAll('[data-i]').forEach((cb) => {
+      cb.onchange = () => { if (cb.checked) selected.add(+cb.dataset.i); else selected.delete(+cb.dataset.i); paint(); };
+    });
+    if ($('#all')) {
+      $('#all').onclick = () => {
+        const allOn = selected.size === presence.length;
+        el.querySelectorAll('[data-i]').forEach((cb) => {
+          cb.checked = !allOn;
+          if (allOn) selected.delete(+cb.dataset.i); else selected.add(+cb.dataset.i);
+        });
+        paint();
+      };
+    }
+    $('#addExtra').onclick = () => {
+      const x = { name: '' };
+      extras.push(x);
+      const row = document.createElement('div');
+      row.className = 'extra stack-s';
+      row.innerHTML = `<div class="row-between"><strong>${t('reg.unlisted')}</strong>
+        <button type="button" class="link small" data-rmx>${t('reg.remove')}</button></div>
+        <label>${t('reg.unlistedName')}<input data-xname></label>`;
+      $('#extras').appendChild(row);
+      row.querySelector('[data-xname]').oninput = (e) => { x.name = e.target.value; };
+      row.querySelector('[data-rmx]').onclick = () => { extras.splice(extras.indexOf(x), 1); row.remove(); paint(); };
+      row.querySelector('[data-xname]').focus();
+      paint();
+    };
+    paint();
+
+    el.querySelector('form').onsubmit = async (ev) => {
+      ev.preventDefault();
+      const ferr = $('#ferr');
+      showErr(ferr, '');
+      if (!total()) return showErr(ferr, t('reg.noneSelected'));
+      if (extras.some((x) => !x.name.trim())) return showErr(ferr, t('form.nameRequired'));
+      const base = {
+        shift_id: shift.id, site_id: site.id, type: 'departure',
+        occurred_at: fromTimeInput($('#time').value).toISOString(),
+        description: $('#desc').value.trim() || null,
+      };
+      const rows = [...selected].map((i) => presence[i]).map((p) => ({
+        ...base, person_id: p.person_id || null, person_name: p.name, person_category: p.category || null,
+      }));
+      extras.forEach((x) => rows.push({ ...base, person_name: x.name.trim(), person_category: 'other' }));
+      $('#save').disabled = true;
+      const { error } = await db.from('log_entries').insert(rows);
+      if (error) { $('#save').disabled = false; return showErr(ferr, error.message); }
       close();
       load();
     };
   }
 
-  function endShift(activePatrol) {
+  function endShift() {
     const list = siteText(site, 'end_checklist') || [];
     const { el, close } = openModal(t('end.title'), `<form class="stack" novalidate>
       ${list.length ? `<fieldset><legend>${t('end.checklist')}</legend>${list.map((i, n) =>
@@ -708,7 +998,6 @@ async function renderShift(main) {
       const notes = el.querySelector('#notes').value.trim();
       const checks = {};
       el.querySelectorAll('[data-check]').forEach((c) => { checks[list[+c.dataset.check]] = c.checked; });
-      if (activePatrol) return showErr(eerr, t('end.patrolOpen'));
       if (Object.values(checks).some((v) => !v) && !notes) return showErr(eerr, t('end.justify'));
       const { error } = await db.from('shifts')
         .update({ status: 'closed', ended_at: new Date().toISOString(), handover_notes: notes || null, checklist: checks })
@@ -730,7 +1019,13 @@ async function renderShift(main) {
       : `<p class="muted">${t('sos.none')}</p>`);
   }
 
-  clockTimer = setInterval(() => { const c = document.getElementById('clock'); if (c) c.textContent = fmtTime(new Date()); }, 15000);
+  function tick() {
+    const c = document.getElementById('clock');
+    if (c) c.textContent = fmtTime(new Date());
+    const e = document.getElementById('elapsed');
+    if (e && patrolStart) e.textContent = t('patrol.elapsed', { n: Math.max(0, Math.round((Date.now() - patrolStart) / 60000)) });
+  }
+  clockTimer = setInterval(tick, 15000);
   main.innerHTML = `<p class="muted">${t('common.wait')}</p>`;
   await load();
 }
@@ -778,12 +1073,13 @@ async function renderReport(main, id) {
       <h2 class="h-section">${t('report.instructions')}</h2><p class="pre">${esc(shift.instructions_received || t('report.none'))}</p>
       <div class="table-wrap"><table class="report-table">
         <thead><tr><th>${t('report.time')}</th><th>${t('report.event')}</th><th>${t('report.details')}</th></tr></thead>
-        <tbody>${entries.map((x) => `<tr class="${x.outcome === 'anomaly' || x.type === 'incident' ? 'is-anomaly' : ''}">
+        <tbody>${entries.map((x) => `<tr class="${x.outcome === 'anomaly' || ['incident', 'anomaly'].includes(x.type) ? 'is-anomaly' : ''}">
           <td class="num">${fmtTime(x.occurred_at)}${x.ended_at ? `–${fmtTime(x.ended_at)}` : ''}</td>
           <td>${esc(describe(x))}${x.person_category ? ` [${t(`cat.${x.person_category}`)}]` : ''}</td>
           <td>${x.authorised_by ? `${esc(t('entry.authorisedBy', { name: x.authorised_by }))}. ` : ''}${x.id_checked ? `${t('entry.idChecked')}. ` : ''}${esc(x.description || '')}
             ${x.corrects_entry_id ? `<em>${esc(t('entry.correcting', { time: fmtTime(byId[x.corrects_entry_id]?.occurred_at) }))}</em>` : ''}
-            ${isLate(x) ? `<em>${esc(t('entry.late', { time: fmtTime(x.created_at) }))}</em>` : ''}</td></tr>`).join('')}</tbody>
+            ${isLate(x) ? `<em>${esc(t('entry.late', { time: fmtTime(x.created_at) }))}</em>` : ''}
+            ${(x.photos || []).length ? `<div class="thumbs" data-photos="${esc(JSON.stringify(x.photos))}"></div>` : ''}</td></tr>`).join('')}</tbody>
       </table></div>
       <h2 class="h-section">${t('report.handover')}</h2><p class="pre">${esc(shift.handover_notes || t('report.none'))}</p>
       ${checks.length ? `<h2 class="h-section">${t('report.checklist')}</h2><ul class="report-checks">${checks.map(([k, v]) =>
@@ -792,6 +1088,7 @@ async function renderReport(main, id) {
   main.querySelector('#back').onclick = () => renderHistory(main);
   main.querySelector('#print').onclick = () => window.print();
   main.querySelector('#pdf').onclick = (ev) => exportShiftPdf(id, ev.currentTarget);
+  hydratePhotos(main);
 }
 
 
@@ -903,9 +1200,10 @@ async function exportShiftPdf(shiftId, btn) {
       if (x.description) details.push(x.description);
       if (x.corrects_entry_id) details.push(t('entry.correcting', { time: fmtTime(byId[x.corrects_entry_id]?.occurred_at) || '?' }));
       if (isLate(x)) details.push(t('entry.late', { time: fmtTime(x.created_at) }));
+      if ((x.photos || []).length) details.push(t('pdf.photosRef', { n: x.photos.length }));
       return [fmtTime(x.occurred_at) + (x.ended_at ? ` – ${fmtTime(x.ended_at)}` : ''), describe(x), details.join('\n')].map(clean);
     });
-    const alertRows = entries.map((x) => x.outcome === 'anomaly' || x.type === 'incident' || x.type === 'correction');
+    const alertRows = entries.map((x) => x.outcome === 'anomaly' || ['incident', 'anomaly', 'correction'].includes(x.type));
 
     ensure(20);
     doc.autoTable({
@@ -933,6 +1231,46 @@ async function exportShiftPdf(shiftId, btn) {
     doc.rect(M, y + 2, 80, 18);
     doc.setFont(font, 'bold'); doc.setTextColor(...INK);
     doc.text(clean(agentName(shift)), M + 84, y + 8);
+
+    // Annexe photos
+    const withPhotos = entries.filter((x) => (x.photos || []).length);
+    if (withPhotos.length) {
+      const allPaths = withPhotos.flatMap((x) => x.photos);
+      const urls = await signedUrls(allPaths);
+      const imgs = {};
+      await Promise.all(allPaths.map(async (p, i) => {
+        try {
+          const blob = await (await fetch(urls[i])).blob();
+          const dataUrl = await new Promise((res) => { const fr = new FileReader(); fr.onload = () => res(fr.result); fr.readAsDataURL(blob); });
+          const dim = await new Promise((res) => { const im = new Image(); im.onload = () => res({ w: im.naturalWidth, h: im.naturalHeight }); im.onerror = () => res(null); im.src = dataUrl; });
+          if (dim) imgs[p] = { dataUrl, ...dim };
+        } catch { /* photo ignorée */ }
+      }));
+      doc.addPage();
+      y = 20;
+      doc.setFont(font, 'bold'); doc.setFontSize(14); doc.setTextColor(...INK);
+      doc.text(clean(t('pdf.photos')), M, y);
+      y += 8;
+      const boxW = (W - 2 * M - 6) / 2;
+      const boxH = 70;
+      for (const x of withPhotos) {
+        ensure(boxH + 12);
+        doc.setFont(font, 'bold'); doc.setFontSize(10); doc.setTextColor(...INK);
+        doc.text(clean(`${fmtTime(x.occurred_at)}  ${describe(x)}`), M, y);
+        y += 4;
+        let col = 0;
+        for (const p of x.photos) {
+          const im = imgs[p];
+          if (!im) continue;
+          if (col === 0) ensure(boxH + 4);
+          const r = Math.min(boxW / im.w, boxH / im.h);
+          doc.addImage(im.dataUrl, 'JPEG', M + col * (boxW + 6), y, im.w * r, im.h * r);
+          if (col === 1) { y += boxH + 4; col = 0; } else col = 1;
+        }
+        if (col === 1) y += boxH + 4;
+        y += 4;
+      }
+    }
 
     const total = doc.getNumberOfPages();
     const generated = clean(`${t('pdf.generated', { date: fmtDateTime(new Date()) })}. ${t('pdf.locked')}`);

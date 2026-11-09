@@ -85,7 +85,7 @@ fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: .5rem; }
 legend { font-weight: 600; font-size: .95rem; padding: 0; margin-bottom: .4rem; }
 .check { display: flex; align-items: center; gap: .6rem; font-weight: 500; min-height: 44px; }
 .check input { width: 22px; height: 22px; min-height: 0; accent-color: var(--signal); }
-.time-field input { font-family: var(--font-num); font-size: 1.4rem; font-weight: 600; max-width: 9rem; }
+.time-field input { font-family: var(--font-num); font-size: 1.4rem; font-weight: 600; max-width: 11rem; }
 .stack { display: grid; gap: 1rem; }
 
 .btn {
@@ -269,3 +269,29 @@ body::before {
 
 .closed p { margin: 0; max-width: 46ch; }
 .row-between .h-section { margin-bottom: .6rem; }
+
+/* Ronde, registres, photos */
+.tone-event { --tone: var(--ok); }
+.tone-anomaly { --tone: var(--alert); }
+.actions { grid-template-columns: repeat(3, 1fr); }
+.patrol-mode .shift-head .h-page { color: var(--signal); }
+.alert-btn { background: var(--alert); border-color: var(--alert); color: #fff; min-height: 72px; font-size: 1.15rem; }
+.alert-text { color: var(--alert); font-weight: 600; margin: 0; }
+.small-pick button { min-height: 38px; font-size: .9rem; padding: .3rem .75rem; }
+.small-pick button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.checklist { list-style: none; margin: 0; padding: 0; max-height: 46vh; overflow: auto; border: 1px solid var(--line); border-radius: var(--radius-s); }
+.checklist li + li { border-top: 1px solid var(--line); }
+.checklist li.muted { padding: .8rem; }
+.check.person { padding: .45rem .7rem; align-items: center; }
+.check.person span { display: grid; }
+.check.person small { color: var(--muted); font-weight: 400; }
+.check.person.is-refused { opacity: .55; }
+.extra { padding: .8rem; border: 1.5px dashed var(--line); border-radius: var(--radius-s); }
+.photos-field { display: grid; gap: .5rem; }
+.photo-btn { justify-self: start; }
+.thumbs { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .3rem; }
+.thumbs:empty { display: none; }
+.thumbs img { width: 76px; height: 76px; object-fit: cover; border-radius: var(--radius-s); border: 1px solid var(--line); display: block; }
+.thumbs.edit figure { position: relative; margin: 0; }
+.thumbs.edit button { position: absolute; top: -6px; right: -6px; width: 26px; height: 26px; border-radius: 50%; border: 0; background: var(--alert); color: #fff; font-size: .8rem; }
+@media (max-width: 520px) { .actions { grid-template-columns: repeat(2, 1fr); } }
