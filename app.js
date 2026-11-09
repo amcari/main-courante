@@ -4,6 +4,7 @@
 'use strict';
 
 const en = {
+  'pdf.readyTitle': 'PDF ready', 'pdf.share': 'Send / share (WhatsApp, email…)', 'pdf.save': 'Save to phone',
   'pdf.translated': 'Free-text entries were automatically translated into English. The originals are kept in the log.',
   'pdf.notTranslated': 'Automatic translation unavailable: free-text entries are shown as typed.',
   'btn.patrol': 'Start patrol', 'btn.arrival': 'Entry register', 'btn.departure': 'Exit register',
@@ -930,7 +931,7 @@ async function renderShift(main) {
   function sos() {
     const nums = siteText(site, 'emergency_numbers') || [];
     openModal(t('sos.title'), nums.length
-      ? `<ul class="sos">${nums.map((n) => `<li><a class="btn big" href="tel:${esc(String(n.number).replace(/\s/g, ''))}">${esc(n.label)} : ${esc(n.number)}</a>
+      ? `<ul class="sos">${nums.map((n) => `<li><a class="btn big${['999', '112'].includes(String(n.number)) ? ' alert-btn' : ''}" href="tel:${esc(String(n.number).replace(/\s/g, ''))}">${esc(String(n.label).includes(n.number) ? n.label : `${n.label} : ${n.number}`)}</a>
           ${n.note ? `<small class="muted">${esc(n.note)}</small>` : ''}</li>`).join('')}</ul>`
       : `<p class="muted">${t('sos.none')}</p>`);
   }
@@ -1041,6 +1042,24 @@ async function loadPdfFonts() {
 
 const slug = (s) => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^A-Za-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const isoDate = (d) => { const x = new Date(d); return `${x.getFullYear()}-${pad(x.getMonth() + 1)}-${pad(x.getDate())}`; };
+
+// Fenêtre « PDF prêt » : partage direct (WhatsApp, e-mail…) ou enregistrement sur le téléphone
+function pdfReady(doc, fname) {
+  const blob = doc.output('blob');
+  let file = null;
+  try { file = new File([blob], fname, { type: 'application/pdf' }); } catch { /* ancien navigateur */ }
+  const canShare = !!(file && navigator.canShare && navigator.canShare({ files: [file] }));
+  const { el, close } = openModal(t('pdf.readyTitle'), `<div class="stack">
+    <p class="muted small">${esc(fname)}</p>
+    ${canShare ? `<button class="btn primary big" id="pshare">${t('pdf.share')}</button>` : ''}
+    <button class="btn big${canShare ? '' : ' primary'}" id="psave">${t('pdf.save')}</button></div>`);
+  if (canShare) {
+    el.querySelector('#pshare').onclick = async () => {
+      try { await navigator.share({ files: [file], title: fname }); close(); } catch { /* partage annulé */ }
+    };
+  }
+  el.querySelector('#psave').onclick = () => { doc.save(fname); close(); };
+}
 
 // Le PDF est toujours produit en anglais (langue du superviseur)
 async function exportShiftPdf(shiftId, btn) {
@@ -1224,7 +1243,7 @@ async function buildShiftPdf(shiftId) {
       doc.text(clean(t('pdf.page', { n, total })), W - M, H - 9, { align: 'right' });
     }
 
-    doc.save(`main-courante_${slug(siteName)}_${isoDate(shift.started_at)}_${slug(shift.agent_last_name || agentName(shift))}.pdf`);
+    pdfReady(doc, `main-courante_${slug(siteName)}_${isoDate(shift.started_at)}_${slug(shift.agent_last_name || agentName(shift))}.pdf`);
   } catch (err) {
     alert(err && err.message ? err.message : String(err));
   } finally {
