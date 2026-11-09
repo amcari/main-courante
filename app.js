@@ -3,100 +3,100 @@
 (() => {
 'use strict';
 
-const fr = {
-  'btn.patrol': 'Démarrer une ronde', 'btn.arrival': 'Registre des entrées', 'btn.departure': 'Registre des sorties',
-  'btn.delivery': 'Livraison', 'btn.event': 'Rapport d’événement', 'btn.incident': 'Rapport d’incident',
-  'btn.anomaly': 'Signaler une anomalie', 'btn.correction': 'Rectification',
-  'type.event': 'Rapport d’événement', 'type.anomaly': 'Anomalie de ronde',
-  'patrol.title': 'Ronde en cours', 'patrol.since': 'commencée à {time}', 'patrol.elapsed': '(depuis {n} min)',
-  'patrol.report': 'Signaler une anomalie', 'patrol.anomalies': 'Anomalies signalées ({n})',
-  'patrol.none': 'Aucune anomalie pour l’instant. Terminez la ronde quand vous avez fait le tour.',
-  'patrol.end': 'Fin de ronde', 'patrol.confirm': 'Terminer la ronde',
-  'patrol.summary': '{n} anomalie(s) signalée(s) pendant cette ronde.', 'patrol.summaryOk': 'Aucune anomalie signalée : la ronde sera enregistrée « RAS ».',
-  'photo.add': 'Ajouter une photo', 'photo.id': 'Photo de la pièce d’identité', 'photo.remove': 'Retirer la photo', 'photo.alt': 'Photo jointe',
-  'photo.uploadError': 'L’envoi d’une photo a échoué. Vérifiez la connexion et réessayez.',
-  'form.location': 'Localisation', 'form.subject': 'Type d’événement (facultatif)', 'form.comment': 'Commentaire (facultatif)',
-  'reg.search': 'Rechercher un nom', 'reg.selectAll': 'Tout cocher', 'reg.unselectAll': 'Tout décocher',
-  'reg.selected': '{n} personne(s) sélectionnée(s)', 'reg.addUnlisted': '+ Personne non listée', 'reg.unlisted': 'Personne non listée',
-  'reg.unlistedName': 'Nom et prénom', 'reg.remove': 'Retirer', 'reg.noneSelected': 'Cochez au moins une personne.',
-  'reg.emptyCategory': 'Personne dans cette catégorie.', 'reg.needApproval': 'Accord à obtenir pour : {names}',
-  'reg.idCheckedGroup': 'Pièces d’identité originales vérifiées pour ces personnes', 'reg.save': 'Enregistrer ({n})',
-  'pdf.photos': 'Photos', 'pdf.photosRef': '{n} photo(s) en annexe',
-  'pdf.download': 'Télécharger le PDF', 'pdf.preparing': 'Préparation du PDF…',
-  'pdf.unavailable': 'Le générateur PDF n’a pas pu se charger (vérifiez la connexion). La fenêtre d’impression va s’ouvrir : choisissez « Enregistrer en PDF ».',
-  'pdf.generated': 'Généré le {date}', 'pdf.signature': 'Signature de l’agent',
-  'pdf.locked': 'Entrées horodatées, non modifiables et non supprimables.', 'pdf.noEntries': 'Aucune entrée.',
-  'pdf.page': 'Page {n} / {total}',
-  'closed.title': 'Service clôturé', 'closed.body': 'Votre main courante est enregistrée. Téléchargez-la en PDF pour la transmettre.',
-  'closed.new': 'Nouvelle prise de service',
-  'start.firstName': 'Prénom', 'start.lastName': 'Nom',
-  'start.nameRequired': 'Indiquez votre prénom et votre nom.',
-  'start.openShifts': 'Service déjà ouvert sur ce site',
-  'start.resume': 'Reprendre le service de {name} (depuis {time})',
-  'access.authorised': 'Personne autorisée : identité déjà vérifiée. Ne pas redemander, photographier ni conserver sa pièce d’identité.',
-  'access.pending': 'Accès pas encore validé : appelez un contact pour obtenir son accord avant l’entrée.',
-  'access.unknown': 'Personne non enregistrée : vérifiez sa pièce d’identité et obtenez l’accord d’un contact avant l’entrée.',
-  'access.refused': 'Accès refusé : ne laissez pas entrer cette personne. Notez un incident si elle insiste.',
-  'access.authorisedBy': 'Accès autorisé par',
-  'access.idChecked': 'Pièce d’identité originale vérifiée face à la personne',
-  'access.idAlready': 'Identité déjà vérifiée lors d’une arrivée précédente ({date}).',
-  'access.authRequired': 'Indiquez qui a autorisé l’accès.',
-  'access.idRequired': 'Vérifiez la pièce d’identité originale avant de laisser entrer.',
-  'access.pendingTag': 'à autoriser', 'access.refusedTag': 'refusé',
-  'entry.authorisedBy': 'Autorisé par {name}', 'entry.idChecked': 'Pièce d’identité vérifiée',
-  'common.wait': 'Un instant…', 'common.cancel': 'Annuler', 'common.save': 'Enregistrer',
-  'common.back': 'Retour', 'common.print': 'Imprimer', 'common.close': 'Fermer',
-  'setup.html': 'Ouvrez le fichier config.js et renseignez l’URL et la clé « anon » de votre projet Supabase (Project Settings, puis API).',
-  'setup.title': 'Configuration manquante',
-  'setup.body': 'Renseignez VITE_SUPABASE_URL et VITE_SUPABASE_ANON_KEY (fichier .env en local, variables d’environnement sur Netlify). Voir le README.',
-  'login.subtitle': 'Main courante électronique', 'login.email': 'E-mail', 'login.password': 'Mot de passe',
-  'login.submit': 'Se connecter', 'login.error': 'E-mail ou mot de passe incorrect.',
-  'blocked': 'Ce compte est désactivé. Contactez votre responsable.',
-  'nav.log': 'Main courante', 'nav.history': 'Historique', 'nav.logout': 'Déconnexion',
-  'start.title': 'Prise de service', 'start.site': 'Site', 'start.chooseSite': 'Choisir un site',
-  'start.noSite': 'Aucun site n’est encore configuré. Demandez à votre responsable de l’ajouter.',
-  'start.standing': 'Consignes permanentes', 'start.previous': 'Relève précédente',
-  'start.previousBy': 'Service clôturé par {name}, le {time}. Ses consignes sont reprises ci-dessous.',
-  'start.noPrevious': 'Aucun service précédent sur ce site.',
-  'start.instructions': 'Consignes reçues',
-  'start.instructionsPh': 'Consignes transmises par l’agent précédent ou le superviseur',
-  'start.submit': 'Prendre mon service',
-  'shift.since': 'En service depuis {time}', 'shift.instructions': 'Consignes reçues',
-  'shift.patrolLive': 'Ronde en cours depuis {time}', 'shift.patrolEnd': 'Terminer la ronde',
-  'shift.onSite': 'Sur site ({n})', 'shift.nobody': 'Personne n’est enregistré sur site.',
-  'shift.log': 'Main courante',
-  'shift.empty': 'Aucune entrée pour l’instant. Utilisez les boutons ci-dessus pour noter chaque événement au moment où il se produit.',
-  'shift.sos': 'Numéros d’urgence', 'shift.end': 'Fin de service',
-  'type.patrol': 'Ronde', 'type.arrival': 'Arrivée', 'type.departure': 'Départ', 'type.delivery': 'Livraison',
-  'type.task': 'Tâche', 'type.gate': 'Portail', 'type.incident': 'Rapport d’incident', 'type.note': 'Note',
-  'type.correction': 'Rectification',
-  'cat.staff': 'Personnel', 'cat.family': 'Famille', 'cat.visitor': 'Visiteur', 'cat.contractor': 'Prestataire', 'cat.other': 'Autre',
-  'patrol.full': 'complète', 'patrol.ok': 'RAS', 'patrol.anomaly': 'anomalie',
-  'desc.patrol': 'Ronde {where} : {result}', 'desc.patrolLive': 'Ronde {where} en cours',
-  'desc.arrival': 'Arrivée de {name}', 'desc.departure': 'Départ de {name}', 'desc.delivery': 'Livraison {name}',
-  'gate.open': 'Ouverture du portail', 'gate.close': 'Fermeture du portail',
-  'entry.correct': 'Rectifier', 'entry.correcting': 'Rectifie l’entrée de {time}', 'entry.late': 'Saisie à {time}',
-  'form.present': 'Présents sur site', 'form.category': 'Catégorie', 'form.person': 'Personne',
-  'form.choose': 'Choisir…', 'form.otherPerson': 'Autre personne…', 'form.name': 'Nom',
-  'form.addToRegistry': 'Ajouter au registre du site', 'form.zone': 'Zone ou maison', 'form.anyZone': 'Non précisée',
-  'form.time': 'Heure', 'form.desc': 'Détails', 'form.company': 'Société ou livreur', 'form.task': 'Tâche réalisée',
-  'form.otherTask': 'Autre tâche', 'form.gateAction': 'Action',
-  'form.nameRequired': 'Indiquez le nom de la personne.', 'form.descRequired': 'Décrivez ce qui s’est passé.',
-  'form.taskRequired': 'Indiquez la tâche réalisée.',
-  'form.correctionHelp': 'Une entrée enregistrée ne peut pas être modifiée. Écrivez ici la rectification : elle sera liée à l’entrée de {time}.',
-  'patrolClose.title': 'Fin de ronde', 'patrolClose.result': 'Résultat', 'patrolClose.zone': 'Ronde effectuée sur',
-  'patrolClose.full': 'Tout le site', 'patrolClose.descRequired': 'Décrivez l’anomalie constatée.',
-  'end.title': 'Fin de service', 'end.checklist': 'Avant de partir', 'end.notes': 'Consignes pour la relève',
-  'end.notesPh': 'Ce que l’agent suivant doit savoir',
-  'end.justify': 'Un point n’est pas coché : expliquez pourquoi dans les consignes pour la relève.',
-  'end.patrolOpen': 'Terminez la ronde en cours avant de clôturer votre service.', 'end.submit': 'Clôturer mon service',
-  'sos.title': 'Numéros d’urgence', 'sos.none': 'Aucun numéro configuré pour ce site.',
-  'history.title': 'Historique des services', 'history.open': 'En cours', 'history.empty': 'Aucun service enregistré.',
-  'report.title': 'Main courante', 'report.date': 'Date', 'report.site': 'Site', 'report.agent': 'Agent',
-  'report.empNo': 'Matricule', 'report.start': 'Début', 'report.end': 'Fin',
-  'report.instructions': 'Consignes reçues', 'report.handover': 'Consignes pour la relève',
-  'report.checklist': 'Contrôles de fin de service', 'report.time': 'Heure', 'report.event': 'Événement',
-  'report.details': 'Détails', 'report.yes': 'Fait', 'report.no': 'Non fait', 'report.none': 'Aucune',
+const es = {
+  'btn.patrol': 'Iniciar ronda', 'btn.arrival': 'Registro de entradas', 'btn.departure': 'Registro de salidas',
+  'btn.delivery': 'Entrega', 'btn.event': 'Informe de evento', 'btn.incident': 'Informe de incidente',
+  'btn.anomaly': 'Señalar una anomalía', 'btn.correction': 'Rectificación',
+  'type.event': 'Informe de evento', 'type.anomaly': 'Anomalía de ronda',
+  'patrol.title': 'Ronda en curso', 'patrol.since': 'iniciada a las {time}', 'patrol.elapsed': '(hace {n} min)',
+  'patrol.report': 'Señalar una anomalía', 'patrol.anomalies': 'Anomalías señaladas ({n})',
+  'patrol.none': 'Ninguna anomalía por ahora. Termine la ronda cuando haya completado el recorrido.',
+  'patrol.end': 'Fin de ronda', 'patrol.confirm': 'Terminar la ronda',
+  'patrol.summary': '{n} anomalía(s) señalada(s) durante esta ronda.', 'patrol.summaryOk': 'Ninguna anomalía señalada: la ronda se registrará «sin novedad».',
+  'photo.add': 'Añadir una foto', 'photo.id': 'Foto del documento de identidad', 'photo.remove': 'Quitar la foto', 'photo.alt': 'Foto adjunta',
+  'photo.uploadError': 'No se ha podido enviar una foto. Compruebe la conexión e inténtelo de nuevo.',
+  'form.location': 'Ubicación', 'form.subject': 'Tipo de evento (opcional)', 'form.comment': 'Comentario (opcional)',
+  'reg.search': 'Buscar un nombre', 'reg.selectAll': 'Marcar todos', 'reg.unselectAll': 'Desmarcar todos',
+  'reg.selected': '{n} persona(s) seleccionada(s)', 'reg.addUnlisted': '+ Persona no registrada', 'reg.unlisted': 'Persona no registrada',
+  'reg.unlistedName': 'Nombre y apellidos', 'reg.remove': 'Quitar', 'reg.noneSelected': 'Marque al menos una persona.',
+  'reg.emptyCategory': 'Nadie en esta categoría.', 'reg.needApproval': 'Autorización necesaria para: {names}',
+  'reg.idCheckedGroup': 'Documentos de identidad originales verificados para estas personas', 'reg.save': 'Guardar ({n})',
+  'pdf.photos': 'Fotos', 'pdf.photosRef': '{n} foto(s) en el anexo',
+  'pdf.download': 'Descargar el PDF', 'pdf.preparing': 'Preparando el PDF…',
+  'pdf.unavailable': 'No se ha podido cargar el generador de PDF (compruebe la conexión). Se abrirá la ventana de impresión: elija «Guardar como PDF».',
+  'pdf.generated': 'Generado el {date}', 'pdf.signature': 'Firma del vigilante',
+  'pdf.locked': 'Entradas con fecha y hora, no modificables y no eliminables.', 'pdf.noEntries': 'Ninguna entrada.',
+  'pdf.page': 'Página {n} / {total}',
+  'closed.title': 'Servicio cerrado', 'closed.body': 'Su libro de registro está guardado. Descárguelo en PDF para entregarlo.',
+  'closed.new': 'Nueva toma de servicio',
+  'start.firstName': 'Nombre', 'start.lastName': 'Apellidos',
+  'start.nameRequired': 'Indique su nombre y apellidos.',
+  'start.openShifts': 'Servicio ya abierto en este sitio',
+  'start.resume': 'Retomar el servicio de {name} (desde las {time})',
+  'access.authorised': 'Persona autorizada: identidad ya verificada. No volver a pedir, fotografiar ni conservar su documento de identidad.',
+  'access.pending': 'Acceso aún no validado: llame a un contacto para obtener su autorización antes de la entrada.',
+  'access.unknown': 'Persona no registrada: verifique su documento de identidad y obtenga la autorización de un contacto antes de la entrada.',
+  'access.refused': 'Acceso denegado: no deje entrar a esta persona. Registre un incidente si insiste.',
+  'access.authorisedBy': 'Acceso autorizado por',
+  'access.idChecked': 'Documento de identidad original verificado frente a la persona',
+  'access.idAlready': 'Identidad ya verificada en una llegada anterior ({date}).',
+  'access.authRequired': 'Indique quién ha autorizado el acceso.',
+  'access.idRequired': 'Verifique el documento de identidad original antes de dejar entrar.',
+  'access.pendingTag': 'por autorizar', 'access.refusedTag': 'denegado',
+  'entry.authorisedBy': 'Autorizado por {name}', 'entry.idChecked': 'Documento de identidad verificado',
+  'common.wait': 'Un momento…', 'common.cancel': 'Cancelar', 'common.save': 'Guardar',
+  'common.back': 'Volver', 'common.print': 'Imprimir', 'common.close': 'Cerrar',
+  'setup.html': 'Abra el archivo config.js e indique la URL y la clave «anon» de su proyecto Supabase (Project Settings, luego API).',
+  'setup.title': 'Falta la configuración',
+  'setup.body': 'Indique la URL y la clave de Supabase. Consulte el README.',
+  'login.subtitle': 'Libro de registro electrónico', 'login.email': 'Correo electrónico', 'login.password': 'Contraseña',
+  'login.submit': 'Iniciar sesión', 'login.error': 'Correo o contraseña incorrectos.',
+  'blocked': 'Esta cuenta está desactivada. Contacte con su responsable.',
+  'nav.log': 'Libro de registro', 'nav.history': 'Historial', 'nav.logout': 'Cerrar sesión',
+  'start.title': 'Toma de servicio', 'start.site': 'Sitio', 'start.chooseSite': 'Elegir un sitio',
+  'start.noSite': 'Todavía no hay ningún sitio configurado. Pida a su responsable que lo añada.',
+  'start.standing': 'Consignas permanentes', 'start.previous': 'Relevo anterior',
+  'start.previousBy': 'Servicio cerrado por {name} el {time}. Sus consignas se recogen abajo.',
+  'start.noPrevious': 'Ningún servicio anterior en este sitio.',
+  'start.instructions': 'Consignas recibidas',
+  'start.instructionsPh': 'Consignas transmitidas por el vigilante anterior o el supervisor',
+  'start.submit': 'Iniciar mi servicio',
+  'shift.since': 'De servicio desde las {time}', 'shift.instructions': 'Consignas recibidas',
+  'shift.patrolLive': 'Ronda en curso desde las {time}', 'shift.patrolEnd': 'Terminar la ronda',
+  'shift.onSite': 'En el sitio ({n})', 'shift.nobody': 'No hay nadie registrado en el sitio.',
+  'shift.log': 'Libro de registro',
+  'shift.empty': 'Ninguna entrada por ahora. Use los botones de arriba para anotar cada evento en el momento en que ocurre.',
+  'shift.sos': 'Números de emergencia', 'shift.end': 'Fin de servicio',
+  'type.patrol': 'Ronda', 'type.arrival': 'Entrada', 'type.departure': 'Salida', 'type.delivery': 'Entrega',
+  'type.task': 'Tarea', 'type.gate': 'Portón', 'type.incident': 'Informe de incidente', 'type.note': 'Nota',
+  'type.correction': 'Rectificación',
+  'cat.staff': 'Personal', 'cat.family': 'Familia', 'cat.visitor': 'Visitante', 'cat.contractor': 'Contratista', 'cat.other': 'Otro',
+  'patrol.full': 'completa', 'patrol.ok': 'sin novedad', 'patrol.anomaly': 'anomalía',
+  'desc.patrol': 'Ronda {where}: {result}', 'desc.patrolLive': 'Ronda {where} en curso',
+  'desc.arrival': 'Entrada de {name}', 'desc.departure': 'Salida de {name}', 'desc.delivery': 'Entrega {name}',
+  'gate.open': 'Apertura del portón', 'gate.close': 'Cierre del portón',
+  'entry.correct': 'Rectificar', 'entry.correcting': 'Rectifica la entrada de las {time}', 'entry.late': 'Registrado a las {time}',
+  'form.present': 'Presentes en el sitio', 'form.category': 'Categoría', 'form.person': 'Persona',
+  'form.choose': 'Elegir…', 'form.otherPerson': 'Otra persona…', 'form.name': 'Nombre',
+  'form.addToRegistry': 'Añadir al registro del sitio', 'form.zone': 'Zona o casa', 'form.anyZone': 'Sin precisar',
+  'form.time': 'Hora', 'form.desc': 'Detalles', 'form.company': 'Empresa o repartidor', 'form.task': 'Tarea realizada',
+  'form.otherTask': 'Otra tarea', 'form.gateAction': 'Acción',
+  'form.nameRequired': 'Indique el nombre de la persona.', 'form.descRequired': 'Describa lo ocurrido.',
+  'form.taskRequired': 'Indique la tarea realizada.',
+  'form.correctionHelp': 'Una entrada guardada no se puede modificar. Escriba aquí la rectificación: quedará vinculada a la entrada de las {time}.',
+  'patrolClose.title': 'Fin de ronda', 'patrolClose.result': 'Resultado', 'patrolClose.zone': 'Ronda realizada en',
+  'patrolClose.full': 'Todo el sitio', 'patrolClose.descRequired': 'Describa la anomalía observada.',
+  'end.title': 'Fin de servicio', 'end.checklist': 'Antes de salir', 'end.notes': 'Consignas para el relevo',
+  'end.notesPh': 'Lo que el siguiente vigilante debe saber',
+  'end.justify': 'Hay un punto sin marcar: explique el motivo en las consignas para el relevo.',
+  'end.patrolOpen': 'Termine la ronda en curso antes de cerrar su servicio.', 'end.submit': 'Cerrar mi servicio',
+  'sos.title': 'Números de emergencia', 'sos.none': 'No hay números configurados para este sitio.',
+  'history.title': 'Historial de servicios', 'history.open': 'En curso', 'history.empty': 'Ningún servicio registrado.',
+  'report.title': 'Libro de registro', 'report.date': 'Fecha', 'report.site': 'Sitio', 'report.agent': 'Vigilante',
+  'report.empNo': 'N.º de empleado', 'report.start': 'Inicio', 'report.end': 'Fin',
+  'report.instructions': 'Consignas recibidas', 'report.handover': 'Consignas para el relevo',
+  'report.checklist': 'Controles de fin de servicio', 'report.time': 'Hora', 'report.event': 'Evento',
+  'report.details': 'Detalles', 'report.yes': 'Hecho', 'report.no': 'No hecho', 'report.none': 'Ninguna',
 };
 
 const en = {
@@ -196,7 +196,8 @@ const en = {
 };
 
 
-const DICT = { fr, en };
+const DICT = { en, es };
+const LANGS = ['en', 'es'];
 const SHIFT_KEY = 'amcari-shift-id';
 const AGENT_KEY = 'amcari-agent';
 const ACTIONS = ['patrol', 'arrival', 'departure', 'delivery', 'event', 'incident'];
@@ -210,16 +211,17 @@ const store = {
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const pad = (n) => String(n).padStart(2, '0');
 
-let lang = store.get('amcari-lang') || (navigator.language && navigator.language.startsWith('fr') ? 'fr' : 'en');
+let lang = store.get('amcari-lang');
+if (!LANGS.includes(lang)) lang = navigator.language && navigator.language.startsWith('es') ? 'es' : 'en';
 function t(k, vars) {
-  let s = (DICT[lang] && DICT[lang][k]) ?? fr[k] ?? k;
+  let s = (DICT[lang] && DICT[lang][k]) ?? en[k] ?? k;
   if (vars) for (const [a, b] of Object.entries(vars)) s = s.split(`{${a}}`).join(b ?? '');
   return s;
 }
 
 function fmtTime(d) { if (!d) return ''; const x = new Date(d); return `${pad(x.getHours())}:${pad(x.getMinutes())}`; }
 function fmtDate(d) {
-  return new Date(d).toLocaleDateString(lang === 'en' ? 'en-GB' : 'fr-FR', { weekday: 'short', day: '2-digit', month: '2-digit', year: 'numeric' });
+  return new Date(d).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-GB', { weekday: 'short', day: '2-digit', month: '2-digit', year: 'numeric' });
 }
 function fmtDateTime(d) { return `${fmtDate(d)} ${fmtTime(d)}`; }
 function timeInputValue(d) { return `${pad(d.getHours())}:${pad(d.getMinutes())}`; }
@@ -309,7 +311,7 @@ async function loadShift(id = store.get(SHIFT_KEY)) {
 }
 
 function langSwitch() {
-  return `<div class="lang" role="group" aria-label="Langue / Language">${['fr', 'en'].map((l) =>
+  return `<div class="lang" role="group" aria-label="Language / Idioma">${LANGS.map((l) =>
     `<button type="button" data-lang="${l}" aria-pressed="${lang === l}">${l.toUpperCase()}</button>`).join('')}</div>`;
 }
 function bindLang(root) {
