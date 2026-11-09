@@ -1223,14 +1223,6 @@ async function exportShiftPdf(shiftId, btn) {
     const checks = Object.entries(shift.checklist || {});
     if (checks.length) section(t('report.checklist'), checks.map(([k, v]) => `${k} : ${v ? t('report.yes') : t('report.no')}`).join('\n'));
 
-    ensure(26);
-    y += 2;
-    doc.setFont(font, 'normal'); doc.setFontSize(10); doc.setTextColor(...MUTED);
-    doc.text(clean(t('pdf.signature')), M, y);
-    doc.setDrawColor(...LINE); doc.setLineWidth(0.3);
-    doc.rect(M, y + 2, 80, 18);
-    doc.setFont(font, 'bold'); doc.setTextColor(...INK);
-    doc.text(clean(agentName(shift)), M + 84, y + 8);
 
     // Annexe photos
     const withPhotos = entries.filter((x) => (x.photos || []).length);
