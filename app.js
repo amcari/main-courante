@@ -204,6 +204,12 @@ function computePresence(moves) {
   }
   return [...map.values()].sort((a, b) => (a.since < b.since ? -1 : 1));
 }
+// Textes du site dans la langue choisie (colonne « translations » ; sinon texte d'origine)
+function siteText(site, field) {
+  const tr = site && site.translations && site.translations[lang];
+  return tr && tr[field] != null ? tr[field] : site ? site[field] : null;
+}
+const roleText = (site, r) => (r && site && site.translations && site.translations[lang] && site.translations[lang].roles && site.translations[lang].roles[r]) || r;
 const isLate = (e) => new Date(e.created_at) - new Date(e.occurred_at) > 10 * 60e3;
 const agentName = (s) => (s ? [s.agent_first_name, s.agent_last_name].filter(Boolean).join(' ') || '?' : '?');
 function describe(e) {
@@ -339,7 +345,7 @@ async function renderStart(main) {
     info.innerHTML = `
       ${openList.length ? `<div class="note-block stack-s"><h2 class="h-small">${t('start.openShifts')}</h2>
         ${openList.map((s) => `<button class="btn" data-resume="${s.id}">${esc(t('start.resume', { name: agentName(s), time: fmtTime(s.started_at) }))}</button>`).join('')}</div>` : ''}
-      ${site.standing_instructions ? `<div class="note-block"><h2 class="h-small">${t('start.standing')}</h2><p class="pre">${esc(site.standing_instructions)}</p></div>` : ''}
+      ${siteText(site, 'standing_instructions') ? `<div class="note-block"><h2 class="h-small">${t('start.standing')}</h2><p class="pre">${esc(siteText(site, 'standing_instructions'))}</p></div>` : ''}
       <p class="muted small">${esc(prev.data ? t('start.previousBy', { name: agentName(prev.data), time: fmtDateTime(prev.data.ended_at) }) : t('start.noPrevious'))}</p>`;
     info.querySelectorAll('[data-resume]').forEach((b) => { b.onclick = async () => { await loadShift(b.dataset.resume); render(); }; });
   }
@@ -451,20 +457,21 @@ async function renderShift(main) {
   }
 
   function zoneSelectHtml(id, emptyLabel) {
-    if (!(site.zones || []).length) return '';
+    const zones = siteText(site, 'zones') || [];
+    if (!zones.length) return '';
     return `<label>${t(id === 'pzone' ? 'patrolClose.zone' : 'form.zone')}<select id="${id}"><option value="">${esc(emptyLabel)}</option>
-      ${site.zones.map((z) => `<option value="${esc(z)}">${esc(z)}</option>`).join('')}</select></label>`;
+      ${zones.map((z) => `<option value="${esc(z)}">${esc(z)}</option>`).join('')}</select></label>`;
   }
 
   function entryForm(type, corrects, presence) {
     const needsPerson = type === 'arrival' || type === 'departure';
     const needsDesc = ['incident', 'note', 'correction'].includes(type);
-    const tasks = site.quick_tasks || [];
-    const contacts = site.access_contacts || [];
+    const tasks = siteText(site, 'quick_tasks') || [];
+    const contacts = siteText(site, 'access_contacts') || [];
     const st = { category: 'staff', personId: '', otherName: '', addReg: true, authBy: '', idChecked: false, prevCheck: null, accessKey: null, action: type === 'gate' ? 'open' : '' };
 
     const optionLabel = (p) => {
-      let l = p.full_name + (p.role ? `, ${p.role}` : '');
+      let l = p.full_name + (p.role ? `, ${roleText(site, p.role)}` : '');
       if (p.access_status === 'pending') l += ` (${t('access.pendingTag')})`;
       if (p.access_status === 'refused') l += ` (${t('access.refusedTag')})`;
       return l;
@@ -687,7 +694,7 @@ async function renderShift(main) {
   }
 
   function endShift(activePatrol) {
-    const list = site.end_checklist || [];
+    const list = siteText(site, 'end_checklist') || [];
     const { el, close } = openModal(t('end.title'), `<form class="stack" novalidate>
       ${list.length ? `<fieldset><legend>${t('end.checklist')}</legend>${list.map((i, n) =>
         `<label class="check"><input type="checkbox" data-check="${n}">${esc(i)}</label>`).join('')}</fieldset>` : ''}
@@ -716,7 +723,7 @@ async function renderShift(main) {
   }
 
   function sos() {
-    const nums = site.emergency_numbers || [];
+    const nums = siteText(site, 'emergency_numbers') || [];
     openModal(t('sos.title'), nums.length
       ? `<ul class="sos">${nums.map((n) => `<li><a class="btn big" href="tel:${esc(String(n.number).replace(/\s/g, ''))}">${esc(n.label)} : ${esc(n.number)}</a>
           ${n.note ? `<small class="muted">${esc(n.note)}</small>` : ''}</li>`).join('')}</ul>`
