@@ -130,6 +130,7 @@ body::before {
 .tabs button { background: none; border: 0; min-height: 44px; padding: 0 .7rem; font-weight: 600; color: var(--muted); border-bottom: 3px solid transparent; }
 .tabs button[aria-current="page"] { color: var(--ink); border-bottom-color: var(--signal); }
 .topbar-end { margin-left: auto; display: flex; align-items: center; gap: .8rem; }
+.topbar-end:empty { display: none; }
 .lang { display: inline-flex; border: 1.5px solid var(--line); border-radius: 999px; overflow: hidden; justify-self: start; }
 .lang button { background: none; border: 0; padding: .3rem .7rem; min-height: 36px; font-weight: 600; font-size: .85rem; color: var(--muted); }
 .lang button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
