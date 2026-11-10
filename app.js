@@ -4,6 +4,8 @@
 'use strict';
 
 const en = {
+  'start.time': 'Start time', 'shift.editStart': 'Change', 'shift.startTitle': 'Start time of the shift',
+  'end.time': 'End time', 'end.timeError': 'The end time must be after the start time.',
   'pdf.readyTitle': 'PDF ready', 'pdf.share': 'Send / share (WhatsApp, email…)', 'pdf.save': 'Save to phone',
   'pdf.translated': 'Free-text entries were automatically translated into English. The originals are kept in the log.',
   'pdf.notTranslated': 'Automatic translation unavailable: free-text entries are shown as typed.',
@@ -139,6 +141,21 @@ function fromTimeInput(v) {
   if (d.getTime() - Date.now() > 5 * 60e3) d.setDate(d.getDate() - 1);
   return d;
 }
+// Heure de début : aujourd'hui, ou la veille si l'heure saisie est loin dans le futur
+function startFromInput(v) {
+  const [h, m] = v.split(':').map(Number);
+  const d = new Date(); d.setHours(h, m, 0, 0);
+  if (d.getTime() - Date.now() > 3 * 3600e3) d.setDate(d.getDate() - 1);
+  return d;
+}
+// Heure de fin : toujours après le début (service de nuit = lendemain)
+function endFromInput(v, startedAt) {
+  const [h, m] = v.split(':').map(Number);
+  const start = new Date(startedAt);
+  const d = new Date(start); d.setHours(h, m, 0, 0);
+  while (d <= start) d.setDate(d.getDate() + 1);
+  return d;
+}
 const personKey = (m) => m.person_id || `n:${(m.person_name || '').trim().toLowerCase()}`;
 function computePresence(moves) {
   const map = new Map();
@@ -269,6 +286,7 @@ async function renderStart(main) {
     <label>${t('start.site')}<select id="site"><option value="">${t('start.chooseSite')}</option>
       ${sites.map((s) => `<option value="${s.id}">${esc(s.name)}</option>`).join('')}</select></label>
     <div id="siteInfo" class="stack"></div>
+    <label class="time-field">${t('start.time')}<input type="time" id="stime" value="${timeInputValue(new Date())}"></label>
     <label>${t('start.instructions')}<textarea id="instr" rows="5" placeholder="${esc(t('start.instructionsPh'))}"></textarea></label>
     <p id="err" class="error" role="alert" hidden></p>
     <button id="startBtn" class="btn primary big" disabled>${t('start.submit')}</button>
@@ -317,6 +335,7 @@ async function renderStart(main) {
     store.set(AGENT_KEY, JSON.stringify({ first, last }));
     const { data, error: e } = await db.from('shifts').insert({
       site_id: sel.value, agent_first_name: first, agent_last_name: last, instructions_received: instr.value.trim() || null,
+      started_at: startFromInput(main.querySelector('#stime').value || timeInputValue(new Date())).toISOString(),
     }).select('id').single();
     if (e) { btn.disabled = false; return showErr(err, e.message); }
     await loadShift(data.id);
@@ -466,7 +485,7 @@ async function renderShift(main) {
     patrolStart = null;
     const presence = computePresence(moves);
     main.innerHTML = `<div class="shift">
-      ${headerHtml(site.name, `${esc(t('shift.since', { time: fmtTime(shift.started_at) }))}, ${esc(agentName(shift))}`)}
+      ${headerHtml(site.name, `${esc(t('shift.since', { time: fmtTime(shift.started_at) }))}, ${esc(agentName(shift))} <button class="link small" id="editStart">${t('shift.editStart')}</button>`)}
       ${shift.instructions_received ? `<details class="note-block"><summary>${t('shift.instructions')}</summary><p class="pre">${esc(shift.instructions_received)}</p></details>` : ''}
       <div class="actions">${ACTIONS.map((a) => `<button class="action tone-${a}" data-act="${a}">${t(`btn.${a}`)}</button>`).join('')}</div>
       <section class="block"><h2 class="h-section">${esc(t('shift.onSite', { n: presence.length }))}</h2>
@@ -495,6 +514,7 @@ async function renderShift(main) {
     });
     main.querySelector('#sosBtn').onclick = sos;
     main.querySelector('#endBtn').onclick = endShift;
+    main.querySelector('#editStart').onclick = editStart;
     main.querySelector('#pdfBtn').onclick = (ev) => exportShiftPdf(shift.id, ev.currentTarget);
     hydratePhotos(main);
   }
@@ -900,11 +920,30 @@ async function renderShift(main) {
     };
   }
 
+  function editStart() {
+    const { el, close } = openModal(t('shift.startTitle'), `<form class="stack" novalidate>
+      <label class="time-field">${t('start.time')}<input type="time" id="st" value="${timeInputValue(new Date(shift.started_at))}" required></label>
+      <p id="serr" class="error" role="alert" hidden></p>
+      <div class="row-end"><button type="button" class="btn" data-close>${t('common.cancel')}</button>
+      <button type="submit" class="btn primary">${t('common.save')}</button></div></form>`);
+    el.querySelector('form').onsubmit = async (ev) => {
+      ev.preventDefault();
+      const v = el.querySelector('#st').value;
+      if (!v) return;
+      const { error } = await db.from('shifts').update({ started_at: startFromInput(v).toISOString() }).eq('id', shift.id);
+      if (error) return showErr(el.querySelector('#serr'), error.message);
+      close();
+      await loadShift(shift.id);
+      render();
+    };
+  }
+
   function endShift() {
     const list = siteText(site, 'end_checklist') || [];
     const { el, close } = openModal(t('end.title'), `<form class="stack" novalidate>
       ${list.length ? `<fieldset><legend>${t('end.checklist')}</legend>${list.map((i, n) =>
         `<label class="check"><input type="checkbox" data-check="${n}">${esc(i)}</label>`).join('')}</fieldset>` : ''}
+      <label class="time-field">${t('end.time')}<input type="time" id="etime" value="${timeInputValue(new Date())}" required></label>
       <label>${t('end.notes')}<textarea id="notes" rows="5" placeholder="${esc(t('end.notesPh'))}"></textarea></label>
       <p id="eerr" class="error" role="alert" hidden></p>
       <div class="row-end"><button type="button" class="btn" data-close>${t('common.cancel')}</button>
@@ -917,7 +956,7 @@ async function renderShift(main) {
       el.querySelectorAll('[data-check]').forEach((c) => { checks[list[+c.dataset.check]] = c.checked; });
       if (Object.values(checks).some((v) => !v) && !notes) return showErr(eerr, t('end.justify'));
       const { error } = await db.from('shifts')
-        .update({ status: 'closed', ended_at: new Date().toISOString(), handover_notes: notes || null, checklist: checks })
+        .update({ status: 'closed', ended_at: endFromInput(el.querySelector('#etime').value || timeInputValue(new Date()), shift.started_at).toISOString(), handover_notes: notes || null, checklist: checks })
         .eq('id', shift.id);
       if (error) return showErr(eerr, error.message);
       close();
