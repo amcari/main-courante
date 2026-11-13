@@ -129,6 +129,9 @@ const SUP = {
     sAuth: 'Autorisé', sPend: 'À autoriser', sRef: 'Refusé',
     justNow: 'à l’instant', minAgo: 'il y a {n} min', hAgo: 'il y a {h} h {m}', min: '{n} min', hours: '{h} h {m}',
     configMissing: 'Configuration manquante', fillConfig: 'Renseignez config.js.',
+    delete: 'Supprimer', delTitle: 'Supprimer cette main courante', cancel: 'Annuler', delConfirm: 'Supprimer définitivement',
+    delText: 'La main courante de {name} du {date} ne s’affichera plus, ni ici ni dans l’application des agents.',
+    pin: 'Code superviseur', pinWrong: 'Code incorrect.',
   },
   en: {
     title: 'Admiral House · Supervisor', overview: 'Live overview', shifts: 'Shifts & logs', register: 'Register',
@@ -151,6 +154,9 @@ const SUP = {
     sAuth: 'Authorised', sPend: 'To approve', sRef: 'Refused',
     justNow: 'just now', minAgo: '{n} min ago', hAgo: '{h} h {m} ago', min: '{n} min', hours: '{h} h {m}',
     configMissing: 'Configuration missing', fillConfig: 'Fill in config.js.',
+    delete: 'Delete', delTitle: 'Delete this log', cancel: 'Cancel', delConfirm: 'Delete',
+    delText: 'The log of {name} on {date} will no longer be shown, here or in the guards’ app.',
+    pin: 'Supervisor code', pinWrong: 'Wrong code.',
   },
 };
 let supLang = (() => { try { return localStorage.getItem('amcari-sup-lang'); } catch { return null; } })();
@@ -227,12 +233,12 @@ async function overview(main, quiet) {
   const since24 = new Date(Date.now() - 24 * 3600e3).toISOString();
   const today = new Date(); today.setHours(0, 0, 0, 0);
   const [open, alerts, moves, patrols] = await Promise.all([
-    db.from('shifts').select('*, sites(name)').eq('status', 'open').order('started_at'),
-    db.from('log_entries').select('*, shifts(agent_first_name, agent_last_name), sites(name)')
-      .gte('occurred_at', since7).in('type', ['incident', 'anomaly', 'patrol']).order('occurred_at', { ascending: false }),
-    db.from('log_entries').select('type, person_id, person_name, person_category, occurred_at, created_at')
-      .in('type', ['arrival', 'departure']).gte('occurred_at', since24).order('occurred_at'),
-    db.from('log_entries').select('id').eq('type', 'patrol').gte('occurred_at', today.toISOString()),
+    db.from('shifts').select('*, sites(name)').eq('status', 'open').is('deleted_at', null).order('started_at'),
+    db.from('log_entries').select('*, shifts!inner(agent_first_name, agent_last_name, deleted_at), sites(name)')
+      .is('shifts.deleted_at', null).gte('occurred_at', since7).in('type', ['incident', 'anomaly', 'patrol']).order('occurred_at', { ascending: false }),
+    db.from('log_entries').select('type, person_id, person_name, person_category, occurred_at, created_at, shifts!inner(deleted_at)')
+      .in('type', ['arrival', 'departure']).is('shifts.deleted_at', null).gte('occurred_at', since24).order('occurred_at'),
+    db.from('log_entries').select('id, shifts!inner(deleted_at)').eq('type', 'patrol').is('shifts.deleted_at', null).gte('occurred_at', today.toISOString()),
   ]);
   const err = open.error || alerts.error || moves.error;
   if (err) { main.innerHTML = `<p class="error">${esc(err.message)}</p>`; return; }
@@ -318,7 +324,7 @@ async function shifts(main) {
     const f = new Date(`${main.querySelector('#from').value}T00:00:00`);
     const tt = new Date(`${main.querySelector('#to').value}T23:59:59`);
     const { data, error } = await db.from('shifts').select('*, sites(name)')
-      .gte('started_at', f.toISOString()).lte('started_at', tt.toISOString()).order('started_at', { ascending: false });
+      .is('deleted_at', null).gte('started_at', f.toISOString()).lte('started_at', tt.toISOString()).order('started_at', { ascending: false });
     const list = main.querySelector('#list');
     if (error) { list.innerHTML = `<p class="error">${esc(error.message)}</p>`; return; }
     const ids = (data || []).map((s) => s.id);
@@ -351,19 +357,23 @@ async function shifts(main) {
         <td class="hide-sm">${st.moves}</td>
         <td>${st.alerts ? `<span class="tag alert">${st.alerts}</span>` : '<span class="muted">0</span>'}</td>
         <td>${s.status === 'open' ? `<span class="tag ok">${L('stOpen')}</span>` : `<span class="tag">${L('stClosed')}</span>`}</td>
-        <td><button class="btn" data-pdf="${s.id}">PDF</button></td>
+        <td class="row-actions"><button class="btn" data-pdf="${s.id}">PDF</button>
+          <button class="btn del-btn" data-del="${s.id}" title="${esc(L('delete'))}" aria-label="${esc(L('delete'))}">✕</button></td>
       </tr>`).join('')}</tbody></table></div>` : `<p class="muted">${L('noShift')}</p>`;
     list.querySelectorAll('[data-pdf]').forEach((b) => {
       b.onclick = (ev) => { ev.stopPropagation(); A.exportShiftPdf(b.dataset.pdf, b); };
     });
-    list.querySelectorAll('tr[data-id]').forEach((tr) => { tr.onclick = () => shiftDetail(tr.dataset.id); });
+    list.querySelectorAll('[data-del]').forEach((b) => {
+      b.onclick = (ev) => { ev.stopPropagation(); const r = rows.find((x) => x.s.id === b.dataset.del); deleteShift(r.s, load); };
+    });
+    list.querySelectorAll('tr[data-id]').forEach((tr) => { tr.onclick = () => shiftDetail(tr.dataset.id, load); });
   };
   main.querySelectorAll('#from, #to, #onlyAlerts').forEach((el) => { el.onchange = load; });
   load();
 }
 
 /* ---------- Détail d'un service ---------- */
-async function shiftDetail(id) {
+async function shiftDetail(id, onDeleted) {
   const [s, e] = await Promise.all([
     db.from('shifts').select('*, sites(name)').eq('id', id).single(),
     db.from('log_entries').select('*').eq('shift_id', id).order('occurred_at', { ascending: false }).order('created_at', { ascending: false }),
@@ -372,7 +382,7 @@ async function shiftDetail(id) {
   const shift = s.data;
   const entries = e.data || [];
   const checks = Object.entries(shift.checklist || {});
-  const { el } = A.openModal(`${agentName(shift)} · ${fmtDate(shift.started_at)}`, `
+  const { el, close } = A.openModal(`${agentName(shift)} · ${fmtDate(shift.started_at)}`, `
     <dl class="detail-meta">
       <div><dt>${L('dSite')}</dt><dd>${esc(shift.sites?.name || '')}</dd></div>
       <div><dt>${L('dStart')}</dt><dd>${esc(fmtDateTime(shift.started_at))}</dd></div>
@@ -380,7 +390,8 @@ async function shiftDetail(id) {
       <div><dt>${L('dDur')}</dt><dd>${duration(shift.started_at, shift.ended_at)}</dd></div>
       <div><dt>${L('dEntries')}</dt><dd>${entries.length} (${L('dAlerts', { n: entries.filter(isAlert).length })})</dd></div>
     </dl>
-    <div class="row-end" style="margin-bottom:1rem"><button class="btn primary" id="dpdf">${L('pdf')}</button></div>
+    <div class="row-end" style="margin-bottom:1rem"><button class="btn del-btn" id="ddel">${L('delete')}</button>
+      <button class="btn primary" id="dpdf">${L('pdf')}</button></div>
     ${shift.instructions_received ? `<div class="note-block" style="margin-bottom:1rem"><h3 class="h-small">${L('instr')}</h3><p class="pre">${esc(shift.instructions_received)}</p></div>` : ''}
     <h3 class="h-section">${L('logTitle')}</h3>
     ${A.timelineHtml(entries, false)}
@@ -388,7 +399,32 @@ async function shiftDetail(id) {
     ${checks.length ? `<p class="small" style="margin-top:.8rem">${checks.map(([k, v]) => `${esc(k)} : <b>${v ? L('done') : L('notDone')}</b>`).join(' · ')}</p>` : ''}`);
   el.classList.add('wide');
   el.querySelector('#dpdf').onclick = (ev) => A.exportShiftPdf(id, ev.currentTarget);
+  el.querySelector('#ddel').onclick = () => deleteShift(shift, () => { close(); if (onDeleted) onDeleted(); else go(); });
   A.hydratePhotos(el);
+}
+
+/* ---------- Suppression d'une main courante (avec confirmation) ---------- */
+function deleteShift(shift, onDone) {
+  const { el, close } = A.openModal(L('delTitle'), `<form class="stack" novalidate>
+    <p>${esc(L('delText', { name: agentName(shift), date: `${fmtDate(shift.started_at)} ${fmtTime(shift.started_at)}` }))}</p>
+    <p id="perr" class="error" role="alert" hidden></p>
+    <div class="row-end"><button type="button" class="btn" data-close>${L('cancel')}</button>
+    <button type="submit" class="btn del-btn solid">${L('delConfirm')}</button></div></form>`);
+  el.querySelector('form').onsubmit = async (ev) => {
+    ev.preventDefault();
+    const perr = el.querySelector('#perr');
+    const submit = el.querySelector('button[type=submit]');
+    submit.disabled = true;
+    const { error } = await db.rpc('delete_shift', { p_shift: shift.id });
+    submit.disabled = false;
+    if (error) {
+      perr.textContent = error.message;
+      perr.hidden = false;
+      return;
+    }
+    close();
+    if (onDone) onDone();
+  };
 }
 
 /* ---------- Registre des personnes ---------- */

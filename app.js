@@ -225,7 +225,7 @@ let clockTimer = null;
 async function loadShift(id = store.get(SHIFT_KEY)) {
   currentShift = null;
   if (!id) return;
-  const { data } = await db.from('shifts').select('*, sites(*)').eq('id', id).maybeSingle();
+  const { data } = await db.from('shifts').select('*, sites(*)').eq('id', id).is('deleted_at', null).maybeSingle();
   if (data && data.status === 'open') {
     store.set(SHIFT_KEY, data.id);
     currentShift = data;
@@ -305,9 +305,9 @@ async function renderStart(main) {
     const site = sites.find((s) => s.id === sel.value);
     const [prev, open] = await Promise.all([
       db.from('shifts').select('handover_notes, ended_at, agent_first_name, agent_last_name')
-        .eq('site_id', site.id).eq('status', 'closed').order('ended_at', { ascending: false }).limit(1).maybeSingle(),
+        .eq('site_id', site.id).eq('status', 'closed').is('deleted_at', null).order('ended_at', { ascending: false }).limit(1).maybeSingle(),
       db.from('shifts').select('id, started_at, agent_first_name, agent_last_name')
-        .eq('site_id', site.id).eq('status', 'open').order('started_at', { ascending: false }),
+        .eq('site_id', site.id).eq('status', 'open').is('deleted_at', null).order('started_at', { ascending: false }),
     ]);
     instr.value = prev.data?.handover_notes || '';
     const openList = open.data || [];
@@ -460,9 +460,9 @@ async function renderShift(main) {
     const [e, p, m, c] = await Promise.all([
       db.from('log_entries').select('*').eq('shift_id', shift.id).order('occurred_at', { ascending: false }).order('created_at', { ascending: false }),
       db.from('people').select('*').eq('site_id', site.id).eq('active', true).order('full_name'),
-      db.from('log_entries').select('type, person_id, person_name, person_category, occurred_at, created_at')
-        .eq('site_id', site.id).in('type', ['arrival', 'departure']).gte('occurred_at', since).order('occurred_at'),
-      db.from('log_entries').select('person_id').eq('site_id', site.id).eq('id_checked', true),
+      db.from('log_entries').select('type, person_id, person_name, person_category, occurred_at, created_at, shifts!inner(deleted_at)')
+        .eq('site_id', site.id).in('type', ['arrival', 'departure']).is('shifts.deleted_at', null).gte('occurred_at', since).order('occurred_at'),
+      db.from('log_entries').select('person_id, shifts!inner(deleted_at)').eq('site_id', site.id).eq('id_checked', true).is('shifts.deleted_at', null),
     ]);
     const firstErr = e.error || p.error || m.error;
     errMsg = firstErr ? firstErr.message : '';
@@ -991,7 +991,7 @@ async function renderHistory(main) {
   main.innerHTML = `<p class="muted">${t('common.wait')}</p>`;
   const { data, error } = await db.from('shifts')
     .select('id, started_at, ended_at, status, agent_first_name, agent_last_name, sites(name)')
-    .order('started_at', { ascending: false }).limit(60);
+    .is('deleted_at', null).order('started_at', { ascending: false }).limit(60);
   if (error) { main.innerHTML = `<p class="error">${esc(error.message)}</p>`; return; }
   main.innerHTML = `<section class="panel stack"><h1 class="h-page">${t('history.title')}</h1>
     ${!data.length ? `<p class="empty">${t('history.empty')}</p>` : `<ul class="history">${data.map((s) => `<li><button data-report="${s.id}">

@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="style.css?v=16" />
+    <link rel="stylesheet" href="style.css?v=18" />
     <style>
       .sup .content { max-width: 1180px; }
       .sup-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
@@ -50,6 +50,9 @@
       table.data tr.click:hover td { background: var(--surface-2); }
       table.data .num { font-family: var(--font-num); font-weight: 600; font-size: 1.05rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
       .sheet.wide { width: min(100%, 900px); }
+      .row-actions { white-space: nowrap; }
+      .del-btn { color: var(--alert); border-color: color-mix(in srgb, var(--alert) 45%, var(--line)); }
+      .del-btn.solid { background: var(--alert); border-color: var(--alert); color: #fff; }
       .detail-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .5rem 1rem; margin: 0 0 1rem; }
       .detail-meta dt { color: var(--muted); font-size: .85rem; }
       .detail-meta dd { margin: 0; font-weight: 600; }
@@ -66,8 +69,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
-    <script src="config.js?v=16"></script>
-    <script src="app.js?v=16"></script>
-    <script src="supervisor.js?v=16"></script>
+    <script src="config.js?v=18"></script>
+    <script src="app.js?v=18"></script>
+    <script src="supervisor.js?v=18"></script>
   </body>
 </html>
